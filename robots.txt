@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://omar-abdel-maqsoud.github.io/-QR-Code-/sitemap.xml
