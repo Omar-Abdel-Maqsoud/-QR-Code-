@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CK24Y3DM0P"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-CK24Y3DM0P');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مولد QR Code مجاني | Free QR Code Generator</title>
     <meta name="description" content="أفضل مولد QR Code مجاني عربي. أنشئ QR Code لروابطك، نصوصك، وبياناتك في ثوانٍ. بدون تسجيل وبدون علامة مائية.">
     <meta name="keywords" content="QR Code, مولد QR, باركود, QR Code generator, مجاني, free">
     <meta name="author" content="QR Tools">
-
-    <!-- Open Graph -->
     <meta property="og:title" content="مولد QR Code مجاني">
     <meta property="og:description" content="أنشئ QR Code احترافي في ثوانٍ">
     <meta property="og:type" content="website">
-
-    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%234F46E5' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>QR</text></svg>">
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CK24Y3DM0P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CK24Y3DM0P');
+    </script>
 
     <style>
         :root {
@@ -40,546 +35,85 @@
             --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
             --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        /* Header */
-        header {
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-        }
-
-        nav a {
-            color: var(--text-light);
-            text-decoration: none;
-            margin-right: 2rem;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+        header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1.5rem; color: var(--primary); text-decoration: none; }
+        .logo-icon { width: 40px; height: 40px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
+        nav a { color: var(--text-light); text-decoration: none; margin-right: 1.5rem; font-weight: 500; transition: color 0.3s; }
         nav a:hover { color: var(--primary); }
-
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 4rem 0 2rem;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), #818CF8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #ECFDF5;
-            color: var(--secondary);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-
-        .badge::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--secondary);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Main Tool */
-        .tool-section {
-            padding: 2rem 0 4rem;
-        }
-
-        .tool-card {
-            background: var(--card);
-            border-radius: 24px;
-            box-shadow: var(--shadow-lg);
-            padding: 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .input-group {
-            margin-bottom: 2rem;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--text);
-            font-size: 1.1rem;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        textarea, input[type="text"] {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background: var(--bg);
-            resize: vertical;
-        }
-
-        textarea:focus, input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-        }
-
-        textarea {
-            min-height: 120px;
-        }
-
-        .char-count {
-            text-align: left;
-            color: var(--text-light);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Options */
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .option-card {
-            background: var(--bg);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 2px solid transparent;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .option-card:hover {
-            border-color: var(--primary);
-        }
-
-        .option-card.active {
-            border-color: var(--primary);
-            background: rgba(79, 70, 229, 0.05);
-        }
-
-        .option-card h4 {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .option-card p {
-            color: var(--text-light);
-            font-size: 0.875rem;
-        }
-
-        /* Color Picker */
-        .color-section {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .color-picker-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .color-picker-group label {
-            font-weight: 600;
-        }
-
-        input[type="color"] {
-            width: 50px;
-            height: 50px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            padding: 0;
-        }
-
-        /* Generate Button */
-        .btn-generate {
-            width: 100%;
-            padding: 1.25rem;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            border-radius: 16px;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
-        }
-
-        .btn-generate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -5px rgba(79, 229, 70, 0.5);
-        }
-
-        .btn-generate:active {
-            transform: translateY(0);
-        }
-
-        .btn-generate:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Result */
-        .result-section {
-            margin-top: 3rem;
-            text-align: center;
-            display: none;
-        }
-
-        .result-section.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .qr-container {
-            background: var(--bg);
-            border-radius: 24px;
-            padding: 3rem;
-            margin-bottom: 2rem;
-            display: inline-block;
-        }
-
-        #qrcode img, #qrcode canvas {
-            display: block;
-            margin: 0 auto;
-            border-radius: 12px;
-        }
-
-        .download-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-download {
-            padding: 0.875rem 2rem;
-            border-radius: 12px;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: var(--bg);
-            color: var(--text);
-            border: 2px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* Features */
-        .features {
-            padding: 4rem 0;
-            background: var(--card);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 2rem;
-            border-radius: 20px;
-            background: var(--bg);
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), #818CF8);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-card p {
-            color: var(--text-light);
-        }
-
-        /* How to Use */
-        .how-to {
-            padding: 4rem 0;
-        }
-
-        .steps {
-            display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .step {
-            flex: 1;
-            min-width: 200px;
-            max-width: 300px;
-            text-align: center;
-            position: relative;
-        }
-
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.25rem;
-            margin: 0 auto 1rem;
-        }
-
-        .step h4 {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .step p {
-            color: var(--text-light);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--text);
-            color: white;
-            padding: 3rem 0 2rem;
-            text-align: center;
-        }
-
-        footer a {
-            color: #818CF8;
-            text-decoration: none;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: #94A3B8;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        /* Ad Placeholder */
-        .ad-placeholder {
-            background: var(--bg);
-            border: 2px dashed var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            color: var(--text-light);
-            margin: 2rem 0;
-        }
-
-        .ad-placeholder span {
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .tool-card { padding: 1.5rem; }
-            .options-grid { grid-template-columns: 1fr; }
-            .color-section { justify-content: center; }
-        }
-
-        /* Loading */
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--text);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.3s;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
+        .hero { text-align: center; padding: 4rem 0 2rem; }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: 1.25rem; color: var(--text-light); max-width: 600px; margin: 0 auto 2rem; }
+        .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: #ECFDF5; color: var(--secondary); padding: 0.5rem 1rem; border-radius: 50px; font-weight: 600; font-size: 0.875rem; }
+        .badge::before { content: ''; width: 8px; height: 8px; background: var(--secondary); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .tool-section { padding: 2rem 0 4rem; }
+        .tool-card { background: var(--card); border-radius: 24px; box-shadow: var(--shadow-lg); padding: 3rem; max-width: 800px; margin: 0 auto; }
+        .input-group { margin-bottom: 2rem; }
+        .input-group label { display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--text); font-size: 1.1rem; }
+        textarea { width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--border); border-radius: 16px; font-family: 'Tajawal', sans-serif; font-size: 1rem; transition: all 0.3s; background: var(--bg); resize: vertical; min-height: 120px; }
+        textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        .char-count { text-align: left; color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem; }
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .option-card { background: var(--bg); border-radius: 16px; padding: 1.5rem; border: 2px solid transparent; transition: all 0.3s; cursor: pointer; text-align: center; }
+        .option-card:hover { border-color: var(--primary); }
+        .option-card.active { border-color: var(--primary); background: rgba(79, 70, 229, 0.05); }
+        .option-card h4 { font-weight: 700; margin-bottom: 0.5rem; }
+        .option-card p { color: var(--text-light); font-size: 0.875rem; }
+        .color-section { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
+        .color-picker-group { display: flex; align-items: center; gap: 1rem; }
+        .color-picker-group label { font-weight: 600; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 12px; cursor: pointer; padding: 0; }
+        .btn-generate { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 16px; font-family: 'Tajawal', sans-serif; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.75rem; box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
+        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.5); }
+        .btn-generate:active { transform: translateY(0); }
+        .result-section { margin-top: 3rem; text-align: center; display: none; }
+        .result-section.show { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .qr-container { background: var(--bg); border-radius: 24px; padding: 3rem; margin-bottom: 2rem; display: inline-block; }
+        .qr-container img { display: block; margin: 0 auto; border-radius: 12px; max-width: 100%; }
+        .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-download { padding: 0.875rem 2rem; border-radius: 12px; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border: none; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-secondary { background: var(--bg); color: var(--text); border: 2px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+        .features { padding: 4rem 0; background: var(--card); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .feature-card { text-align: center; padding: 2rem; border-radius: 20px; background: var(--bg); transition: all 0.3s; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .feature-icon { width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), #818CF8); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; }
+        .feature-card h3 { font-weight: 700; margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-light); }
+        .how-to { padding: 4rem 0; }
+        .steps { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center; }
+        .step { flex: 1; min-width: 200px; max-width: 300px; text-align: center; }
+        .step-number { width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; margin: 0 auto 1rem; }
+        .step h4 { font-weight: 700; margin-bottom: 0.5rem; }
+        .step p { color: var(--text-light); }
+        footer { background: var(--text); color: white; padding: 3rem 0 2rem; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: #94A3B8; text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: white; }
+        .ad-placeholder { background: var(--bg); border: 2px dashed var(--border); border-radius: 16px; padding: 2rem; text-align: center; color: var(--text-light); margin: 2rem 0; }
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: white; padding: 1rem 2rem; border-radius: 12px; font-weight: 600; z-index: 1000; opacity: 0; transition: all 0.3s; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } .options-grid { grid-template-columns: 1fr; } .color-section { justify-content: center; } }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo">
+                <a href="index.html" class="logo">
                     <div class="logo-icon">QR</div>
                     <span>كود مولد</span>
                 </a>
                 <nav>
-                    <a href="#tool">مولد QR</a>
+                    <a href="index.html">مولد QR</a>
                     <a href="compress-image.html">ضاغط الصور</a>
                     <a href="#features">المميزات</a>
                     <a href="#how-to">كيفية الاستخدام</a>
@@ -588,7 +122,6 @@
         </div>
     </header>
 
-    <!-- Hero -->
     <section class="hero">
         <div class="container">
             <div class="badge">✨ مجاني 100% - بدون تسجيل</div>
@@ -597,55 +130,48 @@
         </div>
     </section>
 
-    <!-- Ad Placeholder Top -->
     <div class="container">
         <div class="ad-placeholder">
             <span>📢 مساحة إعلانية - Google AdSense</span>
         </div>
     </div>
 
-    <!-- Tool -->
     <section class="tool-section" id="tool">
         <div class="container">
             <div class="tool-card">
-                <!-- Input -->
                 <div class="input-group">
                     <label for="qr-text">📝 أدخل النص أو الرابط</label>
-                    <div class="input-wrapper">
-                        <textarea id="qr-text" placeholder="مثال: https://example.com أو أي نص تريد تحويله..." maxlength="2000"></textarea>
-                    </div>
+                    <textarea id="qr-text" placeholder="مثال: https://example.com أو أي نص تريد تحويله..." maxlength="2000"></textarea>
                     <div class="char-count"><span id="char-count">0</span> / 2000 حرف</div>
                 </div>
 
-                <!-- Type Options -->
                 <div class="options-grid">
-                    <div class="option-card active" data-type="text">
+                    <div class="option-card active" data-type="text" onclick="selectType(this, 'text')">
                         <h4>📝 نص عادي</h4>
                         <p>أي نص أو رابط</p>
                     </div>
-                    <div class="option-card" data-type="url">
+                    <div class="option-card" data-type="url" onclick="selectType(this, 'url')">
                         <h4>🔗 رابط موقع</h4>
                         <p>https://example.com</p>
                     </div>
-                    <div class="option-card" data-type="email">
+                    <div class="option-card" data-type="email" onclick="selectType(this, 'email')">
                         <h4>📧 بريد إلكتروني</h4>
                         <p>example@email.com</p>
                     </div>
-                    <div class="option-card" data-type="phone">
+                    <div class="option-card" data-type="phone" onclick="selectType(this, 'phone')">
                         <h4>📱 رقم هاتف</h4>
                         <p>+20 123 456 7890</p>
                     </div>
-                    <div class="option-card" data-type="wifi">
+                    <div class="option-card" data-type="wifi" onclick="selectType(this, 'wifi')">
                         <h4>📶 شبكة WiFi</h4>
                         <p>اسم وكلمة المرور</p>
                     </div>
-                    <div class="option-card" data-type="vcard">
+                    <div class="option-card" data-type="vcard" onclick="selectType(this, 'vcard')">
                         <h4>👤 بطاقة تواصل</h4>
                         <p>vCard معلومات</p>
                     </div>
                 </div>
 
-                <!-- Colors -->
                 <div class="color-section">
                     <div class="color-picker-group">
                         <label>🎨 لون QR:</label>
@@ -657,26 +183,21 @@
                     </div>
                 </div>
 
-                <!-- Generate Button -->
                 <button class="btn-generate" id="generate-btn" onclick="generateQR()">
                     <span>⚡ إنشاء QR Code</span>
                 </button>
 
-                <!-- Result -->
                 <div class="result-section" id="result">
                     <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">🎉 QR Code جاهز!</h3>
                     <div class="qr-container">
-                        <div id="qrcode"></div>
+                        <img id="qr-image" src="" alt="QR Code" style="display: none;">
                     </div>
                     <div class="download-buttons">
-                        <button class="btn-download btn-primary" onclick="downloadQR('png')">
+                        <button class="btn-download btn-primary" onclick="downloadQR()">
                             📥 تحميل PNG
                         </button>
-                        <button class="btn-download btn-secondary" onclick="downloadQR('svg')">
-                            📥 تحميل SVG
-                        </button>
                         <button class="btn-download btn-secondary" onclick="copyQR()">
-                            📋 نسخ
+                            📋 نسخ الصورة
                         </button>
                     </div>
                 </div>
@@ -684,19 +205,16 @@
         </div>
     </section>
 
-    <!-- Ad Placeholder Middle -->
     <div class="container">
         <div class="ad-placeholder">
             <span>📢 مساحة إعلانية - Google AdSense</span>
         </div>
     </div>
 
-    <!-- Features -->
     <section class="features" id="features">
         <div class="container">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem;">✨ لماذا أداة QR Code؟</h2>
             <p style="text-align: center; color: var(--text-light); font-size: 1.1rem;">أفضل مولد QR Code مجاني على الإنترنت</p>
-
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🆓</div>
@@ -726,18 +244,16 @@
                 <div class="feature-card">
                     <div class="feature-icon">📥</div>
                     <h3>تنزيل بجودة عالية</h3>
-                    <p>PNG و SVG بجودة طباعية عالية الدقة</p>
+                    <p>PNG بجودة طباعية عالية الدقة</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How to Use -->
     <section class="how-to" id="how-to">
         <div class="container">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem;">🚀 كيفية الاستخدام</h2>
             <p style="text-align: center; color: var(--text-light); font-size: 1.1rem;">3 خطوات بسيطة لإنشاء QR Code</p>
-
             <div class="steps">
                 <div class="step">
                     <div class="step-number">1</div>
@@ -752,20 +268,18 @@
                 <div class="step">
                     <div class="step-number">3</div>
                     <h4>حمّل واستخدم</h4>
-                    <p>اضغط إنشاء ثم حمّل QR Code بصيغة PNG أو SVG</p>
+                    <p>اضغط إنشاء ثم حمّل QR Code بصيغة PNG</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Ad Placeholder Bottom -->
     <div class="container">
         <div class="ad-placeholder">
             <span>📢 مساحة إعلانية - Google AdSense</span>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-links">
@@ -779,11 +293,7 @@
         </div>
     </footer>
 
-    <!-- Toast -->
     <div class="toast" id="toast"></div>
-
-    <!-- QRCode.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <script>
         // Character counter
@@ -795,17 +305,14 @@
         });
 
         // Type selection
-        const optionCards = document.querySelectorAll('.option-card');
         let selectedType = 'text';
 
-        optionCards.forEach(card => {
-            card.addEventListener('click', function() {
-                optionCards.forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-                selectedType = this.dataset.type;
-                updatePlaceholder();
-            });
-        });
+        function selectType(element, type) {
+            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+            selectedType = type;
+            updatePlaceholder();
+        }
 
         function updatePlaceholder() {
             const placeholders = {
@@ -814,19 +321,12 @@
                 email: 'example@email.com',
                 phone: '+20 123 456 7890',
                 wifi: 'WIFI:S:NetworkName;T:WPA;P:Password;;',
-                vcard: 'BEGIN:VCARD
-VERSION:3.0
-FN:الاسم
-TEL:+20123456789
-EMAIL:email@example.com
-END:VCARD'
+                vcard: 'BEGIN:VCARD\nVERSION:3.0\nFN:الاسم\nTEL:+20123456789\nEMAIL:email@example.com\nEND:VCARD'
             };
             textarea.placeholder = placeholders[selectedType] || placeholders.text;
         }
 
-        // Generate QR Code
-        let currentQR = null;
-
+        // Generate QR Code using API
         function generateQR() {
             const text = textarea.value.trim();
 
@@ -837,121 +337,76 @@ END:VCARD'
             }
 
             const btn = document.getElementById('generate-btn');
+            btn.innerHTML = '<span>⏳ جاري الإنشاء...</span>';
             btn.disabled = true;
-            btn.innerHTML = '<div class="spinner"></div> جاري الإنشاء...';
 
-            setTimeout(() => {
-                const qrColor = document.getElementById('qr-color').value;
-                const qrBg = document.getElementById('qr-bg').value;
+            const qrColor = document.getElementById('qr-color').value.replace('#', '');
+            const qrBg = document.getElementById('qr-bg').value.replace('#', '');
 
-                // Clear previous
-                const container = document.getElementById('qrcode');
-                container.innerHTML = '';
+            // Use QRServer API (free, no limits)
+            const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}&color=${qrColor}&bgcolor=${qrBg}`;
 
-                // Generate new QR
-                currentQR = new QRCode(container, {
-                    text: text,
-                    width: 256,
-                    height: 256,
-                    colorDark: qrColor,
-                    colorLight: qrBg,
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-
-                // Show result
+            const img = document.getElementById('qr-image');
+            img.onload = function() {
                 document.getElementById('result').classList.add('show');
-
-                // Reset button
-                btn.disabled = false;
                 btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
-
-                // Scroll to result
+                btn.disabled = false;
                 document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
-
                 showToast('✅ تم إنشاء QR Code بنجاح!');
-            }, 500);
+            };
+
+            img.onerror = function() {
+                showToast('❌ حدث خطأ، جرب مرة أخرى');
+                btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
+                btn.disabled = false;
+            };
+
+            img.src = apiUrl;
+            img.style.display = 'block';
         }
 
         // Download QR Code
-        function downloadQR(format) {
-            const container = document.getElementById('qrcode');
-            const img = container.querySelector('img');
-            const canvas = container.querySelector('canvas');
-
-            if (!img && !canvas) {
+        function downloadQR() {
+            const img = document.getElementById('qr-image');
+            if (!img.src || img.style.display === 'none') {
                 showToast('❌ الرجاء إنشاء QR Code أولاً');
                 return;
             }
 
-            if (format === 'png' && canvas) {
-                const link = document.createElement('a');
-                link.download = 'qr-code.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                showToast('📥 تم التحميل بنجاح!');
-            } else if (format === 'svg') {
-                // Create SVG from canvas
-                const svgData = createSVGFromCanvas(canvas);
-                const blob = new Blob([svgData], { type: 'image/svg+xml' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.download = 'qr-code.svg';
-                link.href = url;
-                link.click();
-                URL.revokeObjectURL(url);
-                showToast('📥 تم التحميل بنجاح!');
-            }
-        }
-
-        function createSVGFromCanvas(canvas) {
-            const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
-            const imageData = ctx.getImageData(0, 0, width, height);
-            const data = imageData.data;
-
-            let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`;
-            svg += `<rect width="${width}" height="${height}" fill="${document.getElementById('qr-bg').value}"/>`;
-
-            const qrColor = document.getElementById('qr-color').value;
-            const moduleSize = 4; // Approximate module size
-
-            for (let y = 0; y < height; y += moduleSize) {
-                for (let x = 0; x < width; x += moduleSize) {
-                    const i = (y * width + x) * 4;
-                    const r = data[i];
-                    const g = data[i + 1];
-                    const b = data[i + 2];
-                    const brightness = (r + g + b) / 3;
-
-                    if (brightness < 128) {
-                        svg += `<rect x="${x}" y="${y}" width="${moduleSize}" height="${moduleSize}" fill="${qrColor}"/>`;
-                    }
-                }
-            }
-
-            svg += '</svg>';
-            return svg;
+            fetch(img.src)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'qr-code.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                    showToast('📥 تم التحميل بنجاح!');
+                })
+                .catch(() => showToast('❌ فشل التحميل'));
         }
 
         // Copy QR Code
         function copyQR() {
-            const container = document.getElementById('qrcode');
-            const canvas = container.querySelector('canvas');
-
-            if (!canvas) {
+            const img = document.getElementById('qr-image');
+            if (!img.src || img.style.display === 'none') {
                 showToast('❌ الرجاء إنشاء QR Code أولاً');
                 return;
             }
 
-            canvas.toBlob(blob => {
-                const item = new ClipboardItem({ 'image/png': blob });
-                navigator.clipboard.write([item]).then(() => {
-                    showToast('📋 تم النسخ إلى الحافظة!');
-                }).catch(() => {
-                    showToast('❌ فشل النسخ، حاول التحميل بدلاً من ذلك');
+            fetch(img.src)
+                .then(response => response.blob())
+                .then(blob => {
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    navigator.clipboard.write([item]).then(() => {
+                        showToast('📋 تم النسخ إلى الحافظة!');
+                    }).catch(() => {
+                        showToast('❌ فشل النسخ، حاول التحميل بدلاً من ذلك');
+                    });
                 });
-            });
         }
 
         // Toast notification
@@ -959,10 +414,7 @@ END:VCARD'
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         // Enter key to generate
