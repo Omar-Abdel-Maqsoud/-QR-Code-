@@ -74,7 +74,7 @@
         .result-section.show { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .qr-container { background: var(--bg); border-radius: 24px; padding: 3rem; margin-bottom: 2rem; display: inline-block; }
-        .qr-container img { display: block; margin: 0 auto; border-radius: 12px; max-width: 100%; }
+        .qr-container img, .qr-container canvas { display: block; margin: 0 auto; border-radius: 12px; max-width: 100%; }
         .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
         .btn-download { padding: 0.875rem 2rem; border-radius: 12px; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border: none; }
         .btn-primary { background: var(--primary); color: white; }
@@ -189,9 +189,7 @@
 
                 <div class="result-section" id="result">
                     <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">🎉 QR Code جاهز!</h3>
-                    <div class="qr-container">
-                        <img id="qr-image" src="" alt="QR Code" style="display: none;">
-                    </div>
+                    <div class="qr-container" id="qrcode"></div>
                     <div class="download-buttons">
                         <button class="btn-download btn-primary" onclick="downloadQR()">
                             📥 تحميل PNG
@@ -295,8 +293,8 @@
 
     <div class="toast" id="toast"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script>
-        // Character counter
         const textarea = document.getElementById('qr-text');
         const charCount = document.getElementById('char-count');
 
@@ -304,7 +302,6 @@
             charCount.textContent = this.value.length;
         });
 
-        // Type selection
         let selectedType = 'text';
 
         function selectType(element, type) {
@@ -326,7 +323,6 @@
             textarea.placeholder = placeholders[selectedType] || placeholders.text;
         }
 
-        // Generate QR Code using API
         function generateQR() {
             const text = textarea.value.trim();
 
@@ -340,76 +336,67 @@
             btn.innerHTML = '<span>⏳ جاري الإنشاء...</span>';
             btn.disabled = true;
 
-            const qrColor = document.getElementById('qr-color').value.replace('#', '');
-            const qrBg = document.getElementById('qr-bg').value.replace('#', '');
+            const qrColor = document.getElementById('qr-color').value;
+            const qrBg = document.getElementById('qr-bg').value;
+            const container = document.getElementById('qrcode');
+            container.innerHTML = '';
 
-            // Use QRServer API (free, no limits)
-            const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}&color=${qrColor}&bgcolor=${qrBg}`;
+            QRCode.toCanvas(container, text, {
+                width: 256,
+                height: 256,
+                color: {
+                    dark: qrColor,
+                    light: qrBg
+                },
+                margin: 2,
+                errorCorrectionLevel: 'H'
+            }, function(error) {
+                if (error) {
+                    showToast('❌ حدث خطأ: ' + error.message);
+                    btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
+                    btn.disabled = false;
+                    return;
+                }
 
-            const img = document.getElementById('qr-image');
-            img.onload = function() {
                 document.getElementById('result').classList.add('show');
                 btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
                 btn.disabled = false;
                 document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 showToast('✅ تم إنشاء QR Code بنجاح!');
-            };
-
-            img.onerror = function() {
-                showToast('❌ حدث خطأ، جرب مرة أخرى');
-                btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
-                btn.disabled = false;
-            };
-
-            img.src = apiUrl;
-            img.style.display = 'block';
+            });
         }
 
-        // Download QR Code
         function downloadQR() {
-            const img = document.getElementById('qr-image');
-            if (!img.src || img.style.display === 'none') {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (!canvas) {
                 showToast('❌ الرجاء إنشاء QR Code أولاً');
                 return;
             }
 
-            fetch(img.src)
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'qr-code.png';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(url);
-                    showToast('📥 تم التحميل بنجاح!');
-                })
-                .catch(() => showToast('❌ فشل التحميل'));
+            const link = document.createElement('a');
+            link.download = 'qr-code.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('📥 تم التحميل بنجاح!');
         }
 
-        // Copy QR Code
         function copyQR() {
-            const img = document.getElementById('qr-image');
-            if (!img.src || img.style.display === 'none') {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (!canvas) {
                 showToast('❌ الرجاء إنشاء QR Code أولاً');
                 return;
             }
 
-            fetch(img.src)
-                .then(response => response.blob())
-                .then(blob => {
-                    const item = new ClipboardItem({ 'image/png': blob });
-                    navigator.clipboard.write([item]).then(() => {
-                        showToast('📋 تم النسخ إلى الحافظة!');
-                    }).catch(() => {
-                        showToast('❌ فشل النسخ، حاول التحميل بدلاً من ذلك');
-                    });
+            canvas.toBlob(blob => {
+                const item = new ClipboardItem({ 'image/png': blob });
+                navigator.clipboard.write([item]).then(() => {
+                    showToast('📋 تم النسخ إلى الحافظة!');
+                }).catch(() => {
+                    showToast('❌ فشل النسخ، حاول التحميل بدلاً من ذلك');
                 });
+            });
         }
 
-        // Toast notification
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -417,7 +404,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Enter key to generate
         textarea.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && e.ctrlKey) {
                 generateQR();
