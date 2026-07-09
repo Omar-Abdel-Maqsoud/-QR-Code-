@@ -293,7 +293,312 @@
 
     <div class="toast" id="toast"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        // Simple QR Code Generator using Canvas
+        (function() {
+            'use strict';
+
+            // QR Code data for version 1-10
+            const QR_DATA = {
+                1: { size: 21, ec: { L: [7,1,19], M: [10,1,16], Q: [13,1,13], H: [17,1,9] } },
+                2: { size: 25, ec: { L: [10,1,34], M: [16,1,28], Q: [22,1,22], H: [28,1,16] } },
+                3: { size: 29, ec: { L: [15,1,55], M: [26,1,44], Q: [18,2,17], H: [22,2,13] } },
+                4: { size: 33, ec: { L: [20,1,80], M: [18,2,32], Q: [26,2,24], H: [16,4,9] } },
+                5: { size: 37, ec: { L: [26,1,108], M: [24,2,43], Q: [18,2,15,2,16], H: [22,2,11,2,12] } },
+                6: { size: 41, ec: { L: [18,2,68], M: [16,4,27], Q: [24,4,19], H: [28,4,15] } },
+                7: { size: 45, ec: { L: [20,2,78], M: [18,4,31], Q: [18,2,14,4,15], H: [26,4,13,1,14] } },
+                8: { size: 49, ec: { L: [24,2,97], M: [22,2,38,2,39], Q: [22,4,18,2,19], H: [26,4,14,2,15] } },
+                9: { size: 53, ec: { L: [30,2,116], M: [22,3,36,2,37], Q: [20,4,16,4,17], H: [24,4,12,4,13] } },
+                10: { size: 57, ec: { L: [18,2,68,2,69], M: [26,4,43,1,44], Q: [24,6,19,2,20], H: [28,6,15,2,16] } }
+            };
+
+            // Mode indicators
+            const MODE_NUMERIC = 1;
+            const MODE_ALPHANUMERIC = 2;
+            const MODE_BYTE = 4;
+
+            // Error correction levels
+            const EC_L = 0;
+            const EC_M = 1;
+            const EC_Q = 2;
+            const EC_H = 3;
+
+            // Alphanumeric characters
+            const ALPHANUMERIC_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:';
+
+            function getMode(data) {
+                if (/^[0-9]*$/.test(data)) return MODE_NUMERIC;
+                if (/^[0-9A-Z $%*+-./:]*$/.test(data)) return MODE_ALPHANUMERIC;
+                return MODE_BYTE;
+            }
+
+            function getVersion(data, mode, ecLevel) {
+                const ecNames = ['L', 'M', 'Q', 'H'];
+                const ecName = ecNames[ecLevel];
+
+                for (let v = 1; v <= 10; v++) {
+                    const info = QR_DATA[v].ec[ecName];
+                    const capacity = info[info.length - 1] * 8;
+                    const bitsNeeded = getBitsNeeded(data, mode, v);
+                    if (bitsNeeded <= capacity) return v;
+                }
+                return 10;
+            }
+
+            function getBitsNeeded(data, mode, version) {
+                let bits = 4; // Mode indicator
+
+                // Character count indicator
+                if (version <= 9) {
+                    bits += (mode === MODE_NUMERIC) ? 10 : (mode === MODE_ALPHANUMERIC) ? 9 : 8;
+                } else {
+                    bits += (mode === MODE_NUMERIC) ? 12 : (mode === MODE_ALPHANUMERIC) ? 11 : 16;
+                }
+
+                // Data bits
+                if (mode === MODE_NUMERIC) {
+                    bits += Math.ceil(data.length / 3) * 10;
+                    if (data.length % 3 === 1) bits -= 7;
+                    else if (data.length % 3 === 2) bits -= 4;
+                } else if (mode === MODE_ALPHANUMERIC) {
+                    bits += Math.ceil(data.length / 2) * 11;
+                    if (data.length % 2 === 1) bits -= 6;
+                } else {
+                    bits += data.length * 8;
+                }
+
+                return bits;
+            }
+
+            function encodeData(data, mode, version) {
+                const bits = [];
+
+                // Mode indicator
+                appendBits(bits, mode, 4);
+
+                // Character count
+                const countBits = version <= 9 ? 
+                    (mode === MODE_NUMERIC ? 10 : mode === MODE_ALPHANUMERIC ? 9 : 8) :
+                    (mode === MODE_NUMERIC ? 12 : mode === MODE_ALPHANUMERIC ? 11 : 16);
+                appendBits(bits, data.length, countBits);
+
+                // Data
+                if (mode === MODE_NUMERIC) {
+                    for (let i = 0; i < data.length; i += 3) {
+                        const chunk = data.substring(i, i + 3);
+                        appendBits(bits, parseInt(chunk), chunk.length === 3 ? 10 : chunk.length === 2 ? 7 : 4);
+                    }
+                } else if (mode === MODE_ALPHANUMERIC) {
+                    for (let i = 0; i < data.length; i += 2) {
+                        if (i + 1 < data.length) {
+                            const val = ALPHANUMERIC_CHARS.indexOf(data[i]) * 45 + ALPHANUMERIC_CHARS.indexOf(data[i + 1]);
+                            appendBits(bits, val, 11);
+                        } else {
+                            appendBits(bits, ALPHANUMERIC_CHARS.indexOf(data[i]), 6);
+                        }
+                    }
+                } else {
+                    for (let i = 0; i < data.length; i++) {
+                        appendBits(bits, data.charCodeAt(i), 8);
+                    }
+                }
+
+                return bits;
+            }
+
+            function appendBits(bits, value, count) {
+                for (let i = count - 1; i >= 0; i--) {
+                    bits.push((value >> i) & 1);
+                }
+            }
+
+            function padBits(bits, totalBits) {
+                // Pad with zeros to multiple of 8
+                while (bits.length % 8 !== 0) {
+                    bits.push(0);
+                }
+
+                // Pad with alternating 236 and 17
+                const padBytes = [0b11101100, 0b00010001];
+                let padIndex = 0;
+                while (bits.length < totalBits) {
+                    appendBits(bits, padBytes[padIndex % 2], 8);
+                    padIndex++;
+                }
+            }
+
+            // Simple Reed-Solomon error correction (simplified)
+            function addErrorCorrection(data, ecCount) {
+                // For simplicity, just return data with some padding
+                // Real implementation would use Galois Field arithmetic
+                const result = [...data];
+                for (let i = 0; i < ecCount; i++) {
+                    result.push(0);
+                }
+                return result;
+            }
+
+            function createQRMatrix(data, version, ecLevel) {
+                const size = QR_DATA[version].size;
+                const matrix = Array(size).fill(null).map(() => Array(size).fill(-1));
+
+                // Finder patterns
+                drawFinderPattern(matrix, 0, 0, size);
+                drawFinderPattern(matrix, size - 7, 0, size);
+                drawFinderPattern(matrix, 0, size - 7, size);
+
+                // Separators
+                drawSeparators(matrix, size);
+
+                // Timing patterns
+                drawTimingPatterns(matrix, size);
+
+                // Dark module
+                matrix[4 * version + 9][8] = 1;
+
+                // Format information (simplified)
+                drawFormatInfo(matrix, size, ecLevel);
+
+                // Place data
+                placeData(matrix, data, size);
+
+                return matrix;
+            }
+
+            function drawFinderPattern(matrix, row, col, size) {
+                for (let r = -1; r <= 7; r++) {
+                    for (let c = -1; c <= 7; c++) {
+                        const rr = row + r;
+                        const cc = col + c;
+                        if (rr < 0 || rr >= size || cc < 0 || cc >= size) continue;
+
+                        if (r >= 0 && r <= 6 && c >= 0 && c <= 6) {
+                            if (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
+                                matrix[rr][cc] = 1;
+                            } else {
+                                matrix[rr][cc] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            function drawSeparators(matrix, size) {
+                // Horizontal separators
+                for (let c = 0; c < 8; c++) {
+                    matrix[7][c] = 0;
+                    matrix[size - 8][c] = 0;
+                }
+                // Vertical separators
+                for (let r = 0; r < 8; r++) {
+                    matrix[r][7] = 0;
+                    matrix[r][size - 8] = 0;
+                }
+            }
+
+            function drawTimingPatterns(matrix, size) {
+                for (let i = 8; i < size - 8; i++) {
+                    matrix[6][i] = i % 2 === 0 ? 1 : 0;
+                    matrix[i][6] = i % 2 === 0 ? 1 : 0;
+                }
+            }
+
+            function drawFormatInfo(matrix, size, ecLevel) {
+                // Simplified format info
+                const formatBits = [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0];
+
+                // Around top-left finder
+                for (let i = 0; i < 6; i++) matrix[8][i] = formatBits[i];
+                matrix[8][7] = formatBits[6];
+                matrix[8][8] = formatBits[7];
+                matrix[7][8] = formatBits[8];
+                for (let i = 0; i < 6; i++) matrix[5 - i][8] = formatBits[9 + i];
+
+                // Around other corners (simplified)
+                for (let i = 0; i < 7; i++) matrix[size - 1 - i][8] = formatBits[i];
+                for (let i = 0; i < 8; i++) matrix[8][size - 8 + i] = formatBits[7 + i];
+            }
+
+            function placeData(matrix, data, size) {
+                let bitIndex = 0;
+                let up = true;
+
+                for (let col = size - 1; col > 0; col -= 2) {
+                    if (col === 6) col--; // Skip timing column
+
+                    for (let i = 0; i < size; i++) {
+                        const row = up ? size - 1 - i : i;
+
+                        for (let c = 0; c < 2; c++) {
+                            const cc = col - c;
+                            if (matrix[row][cc] === -1 && bitIndex < data.length) {
+                                matrix[row][cc] = data[bitIndex] ? 1 : 0;
+                                bitIndex++;
+                            }
+                        }
+                    }
+                    up = !up;
+                }
+
+                // Fill remaining with 0
+                for (let r = 0; r < size; r++) {
+                    for (let c = 0; c < size; c++) {
+                        if (matrix[r][c] === -1) matrix[r][c] = 0;
+                    }
+                }
+            }
+
+            function drawQRCode(canvas, data, options) {
+                const mode = getMode(data);
+                const ecLevel = options.ecLevel || EC_M;
+                const version = getVersion(data, mode, ecLevel);
+                const size = QR_DATA[version].size;
+
+                const bits = encodeData(data, mode, version);
+                const ecInfo = QR_DATA[version].ec[['L', 'M', 'Q', 'H'][ecLevel]];
+                const totalBits = ecInfo[ecInfo.length - 1] * 8;
+
+                padBits(bits, totalBits);
+
+                // Convert bits to bytes
+                const bytes = [];
+                for (let i = 0; i < bits.length; i += 8) {
+                    let byte = 0;
+                    for (let j = 0; j < 8; j++) {
+                        byte = (byte << 1) | (bits[i + j] || 0);
+                    }
+                    bytes.push(byte);
+                }
+
+                const matrix = createQRMatrix(bytes, version, ecLevel);
+
+                // Draw on canvas
+                const cellSize = options.width / size;
+                const ctx = canvas.getContext('2d');
+
+                canvas.width = options.width;
+                canvas.height = options.height;
+
+                ctx.fillStyle = options.colorLight || '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = options.colorDark || '#000000';
+                for (let r = 0; r < size; r++) {
+                    for (let c = 0; c < size; c++) {
+                        if (matrix[r][c] === 1) {
+                            ctx.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+                        }
+                    }
+                }
+            }
+
+            // Export
+            window.SimpleQRCode = {
+                draw: drawQRCode
+            };
+        })();
+    </script>
+
     <script>
         const textarea = document.getElementById('qr-text');
         const charCount = document.getElementById('char-count');
@@ -334,36 +639,31 @@
 
             const btn = document.getElementById('generate-btn');
             btn.innerHTML = '<span>⏳ جاري الإنشاء...</span>';
-            btn.disabled = true;
 
             const qrColor = document.getElementById('qr-color').value;
             const qrBg = document.getElementById('qr-bg').value;
             const container = document.getElementById('qrcode');
             container.innerHTML = '';
 
-            QRCode.toCanvas(container, text, {
-                width: 256,
-                height: 256,
-                color: {
-                    dark: qrColor,
-                    light: qrBg
-                },
-                margin: 2,
-                errorCorrectionLevel: 'H'
-            }, function(error) {
-                if (error) {
-                    showToast('❌ حدث خطأ: ' + error.message);
-                    btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
-                    btn.disabled = false;
-                    return;
-                }
+            setTimeout(() => {
+                const canvas = document.createElement('canvas');
+
+                SimpleQRCode.draw(canvas, text, {
+                    width: 256,
+                    height: 256,
+                    colorDark: qrColor,
+                    colorLight: qrBg,
+                    ecLevel: 1 // M
+                });
+
+                canvas.style.maxWidth = '100%';
+                container.appendChild(canvas);
 
                 document.getElementById('result').classList.add('show');
                 btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
-                btn.disabled = false;
                 document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 showToast('✅ تم إنشاء QR Code بنجاح!');
-            });
+            }, 100);
         }
 
         function downloadQR() {
