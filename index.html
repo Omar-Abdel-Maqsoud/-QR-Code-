@@ -4,24 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مولد QR Code مجاني | Free QR Code Generator</title>
-    <meta name="description" content="أفضل مولد QR Code مجاني عربي. أنشئ QR Code لروابطك، نصوصك، وبياناتك في ثوانٍ. بدون تسجيل وبدون علامة مائية.">
-    <meta name="keywords" content="QR Code, مولد QR, باركود, QR Code generator, مجاني, free">
-    <meta name="author" content="QR Tools">
-    <meta property="og:title" content="مولد QR Code مجاني">
-    <meta property="og:description" content="أنشئ QR Code احترافي في ثوانٍ">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%234F46E5' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white'>QR</text></svg>">
+    <meta name="description" content="أفضل مولد QR Code مجاني عربي. أنشئ QR Code لروابطك، نصوصك، وبياناتك في ثوانٍ.">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CK24Y3DM0P"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-CK24Y3DM0P');
-    </script>
-
     <style>
         :root {
             --primary: #4F46E5;
@@ -32,76 +16,45 @@
             --text: #1E293B;
             --text-light: #64748B;
             --border: #E2E8F0;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
-        header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
         .header-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1.5rem; color: var(--primary); text-decoration: none; }
         .logo-icon { width: 40px; height: 40px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
-        nav a { color: var(--text-light); text-decoration: none; margin-right: 1.5rem; font-weight: 500; transition: color 0.3s; }
+        nav a { color: var(--text-light); text-decoration: none; margin-right: 1.5rem; font-weight: 500; }
         nav a:hover { color: var(--primary); }
         .hero { text-align: center; padding: 4rem 0 2rem; }
-        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p { font-size: 1.25rem; color: var(--text-light); max-width: 600px; margin: 0 auto 2rem; }
         .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: #ECFDF5; color: var(--secondary); padding: 0.5rem 1rem; border-radius: 50px; font-weight: 600; font-size: 0.875rem; }
-        .badge::before { content: ''; width: 8px; height: 8px; background: var(--secondary); border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         .tool-section { padding: 2rem 0 4rem; }
         .tool-card { background: var(--card); border-radius: 24px; box-shadow: var(--shadow-lg); padding: 3rem; max-width: 800px; margin: 0 auto; }
         .input-group { margin-bottom: 2rem; }
-        .input-group label { display: block; font-weight: 700; margin-bottom: 0.75rem; color: var(--text); font-size: 1.1rem; }
-        textarea { width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--border); border-radius: 16px; font-family: 'Tajawal', sans-serif; font-size: 1rem; transition: all 0.3s; background: var(--bg); resize: vertical; min-height: 120px; }
+        .input-group label { display: block; font-weight: 700; margin-bottom: 0.75rem; font-size: 1.1rem; }
+        textarea { width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--border); border-radius: 16px; font-family: 'Tajawal'; font-size: 1rem; background: var(--bg); resize: vertical; min-height: 120px; }
         textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
         .char-count { text-align: left; color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem; }
-        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .option-card { background: var(--bg); border-radius: 16px; padding: 1.5rem; border: 2px solid transparent; transition: all 0.3s; cursor: pointer; text-align: center; }
-        .option-card:hover { border-color: var(--primary); }
-        .option-card.active { border-color: var(--primary); background: rgba(79, 70, 229, 0.05); }
-        .option-card h4 { font-weight: 700; margin-bottom: 0.5rem; }
-        .option-card p { color: var(--text-light); font-size: 0.875rem; }
-        .color-section { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
-        .color-picker-group { display: flex; align-items: center; gap: 1rem; }
-        .color-picker-group label { font-weight: 600; }
-        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 12px; cursor: pointer; padding: 0; }
-        .btn-generate { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 16px; font-family: 'Tajawal', sans-serif; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.75rem; box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
-        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.5); }
-        .btn-generate:active { transform: translateY(0); }
+        .btn-generate { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 16px; font-family: 'Tajawal'; font-size: 1.25rem; font-weight: 700; cursor: pointer; margin-top: 1rem; }
+        .btn-generate:hover { transform: translateY(-2px); }
         .result-section { margin-top: 3rem; text-align: center; display: none; }
-        .result-section.show { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .result-section.show { display: block; }
         .qr-container { background: var(--bg); border-radius: 24px; padding: 3rem; margin-bottom: 2rem; display: inline-block; }
-        .qr-container img { display: block; margin: 0 auto; border-radius: 12px; max-width: 100%; }
-        .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn-download { padding: 0.875rem 2rem; border-radius: 12px; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border: none; }
+        .qr-container img { display: block; margin: 0 auto; border-radius: 12px; }
+        .download-buttons { display: flex; gap: 1rem; justify-content: center; }
+        .btn-download { padding: 0.875rem 2rem; border-radius: 12px; font-family: 'Tajawal'; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
         .btn-secondary { background: var(--bg); color: var(--text); border: 2px solid var(--border); }
-        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
-        .features { padding: 4rem 0; background: var(--card); }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
-        .feature-card { text-align: center; padding: 2rem; border-radius: 20px; background: var(--bg); transition: all 0.3s; }
-        .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-        .feature-icon { width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), #818CF8); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; }
-        .feature-card h3 { font-weight: 700; margin-bottom: 0.5rem; }
-        .feature-card p { color: var(--text-light); }
-        .how-to { padding: 4rem 0; }
-        .steps { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center; }
-        .step { flex: 1; min-width: 200px; max-width: 300px; text-align: center; }
-        .step-number { width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; margin: 0 auto 1rem; }
-        .step h4 { font-weight: 700; margin-bottom: 0.5rem; }
-        .step p { color: var(--text-light); }
-        footer { background: var(--text); color: white; padding: 3rem 0 2rem; text-align: center; }
+        footer { background: var(--text); color: white; padding: 3rem 0 2rem; text-align: center; margin-top: 4rem; }
         .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        .footer-links a { color: #94A3B8; text-decoration: none; transition: color 0.3s; }
+        .footer-links a { color: #94A3B8; text-decoration: none; }
         .footer-links a:hover { color: white; }
-        .ad-placeholder { background: var(--bg); border: 2px dashed var(--border); border-radius: 16px; padding: 2rem; text-align: center; color: var(--text-light); margin: 2rem 0; }
         .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: white; padding: 1rem 2rem; border-radius: 12px; font-weight: 600; z-index: 1000; opacity: 0; transition: all 0.3s; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } .options-grid { grid-template-columns: 1fr; } .color-section { justify-content: center; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } }
     </style>
 </head>
 <body>
@@ -115,8 +68,8 @@
                 <nav>
                     <a href="index.html">مولد QR</a>
                     <a href="compress-image.html">ضاغط الصور</a>
-                    <a href="#features">المميزات</a>
-                    <a href="#how-to">كيفية الاستخدام</a>
+                    <a href="privacy.html">سياسة الخصوصية</a>
+                    <a href="terms.html">شروط الاستخدام</a>
                 </nav>
             </div>
         </div>
@@ -124,67 +77,23 @@
 
     <section class="hero">
         <div class="container">
-            <div class="badge">✨ مجاني 100% - بدون تسجيل</div>
+            <div class="badge">✨ مجاني 100%</div>
             <h1>مولد QR Code احترافي</h1>
-            <p>أنشئ QR Code مخصص لروابطك، نصوصك، وبياناتك في ثوانٍ. سريع، مجاني، وبدون علامة مائية.</p>
+            <p>أنشئ QR Code مخصص لروابطك في ثوانٍ. سريع، مجاني، وبدون علامة مائية.</p>
         </div>
     </section>
 
-    <div class="container">
-        <div class="ad-placeholder">
-            <span>📢 مساحة إعلانية - Google AdSense</span>
-        </div>
-    </div>
-
-    <section class="tool-section" id="tool">
+    <section class="tool-section">
         <div class="container">
             <div class="tool-card">
                 <div class="input-group">
                     <label for="qr-text">📝 أدخل النص أو الرابط</label>
-                    <textarea id="qr-text" placeholder="مثال: https://example.com أو أي نص تريد تحويله..." maxlength="2000"></textarea>
-                    <div class="char-count"><span id="char-count">0</span> / 2000 حرف</div>
-                </div>
-
-                <div class="options-grid">
-                    <div class="option-card active" data-type="text" onclick="selectType(this, 'text')">
-                        <h4>📝 نص عادي</h4>
-                        <p>أي نص أو رابط</p>
-                    </div>
-                    <div class="option-card" data-type="url" onclick="selectType(this, 'url')">
-                        <h4>🔗 رابط موقع</h4>
-                        <p>https://example.com</p>
-                    </div>
-                    <div class="option-card" data-type="email" onclick="selectType(this, 'email')">
-                        <h4>📧 بريد إلكتروني</h4>
-                        <p>example@email.com</p>
-                    </div>
-                    <div class="option-card" data-type="phone" onclick="selectType(this, 'phone')">
-                        <h4>📱 رقم هاتف</h4>
-                        <p>+20 123 456 7890</p>
-                    </div>
-                    <div class="option-card" data-type="wifi" onclick="selectType(this, 'wifi')">
-                        <h4>📶 شبكة WiFi</h4>
-                        <p>اسم وكلمة المرور</p>
-                    </div>
-                    <div class="option-card" data-type="vcard" onclick="selectType(this, 'vcard')">
-                        <h4>👤 بطاقة تواصل</h4>
-                        <p>vCard معلومات</p>
-                    </div>
-                </div>
-
-                <div class="color-section">
-                    <div class="color-picker-group">
-                        <label>🎨 لون QR:</label>
-                        <input type="color" id="qr-color" value="#000000">
-                    </div>
-                    <div class="color-picker-group">
-                        <label>⬜ لون الخلفية:</label>
-                        <input type="color" id="qr-bg" value="#FFFFFF">
-                    </div>
+                    <textarea id="qr-text" placeholder="مثال: https://google.com" maxlength="500"></textarea>
+                    <div class="char-count"><span id="char-count">0</span> / 500 حرف</div>
                 </div>
 
                 <button class="btn-generate" id="generate-btn" onclick="generateQR()">
-                    <span>⚡ إنشاء QR Code</span>
+                    ⚡ إنشاء QR Code
                 </button>
 
                 <div class="result-section" id="result">
@@ -193,103 +102,22 @@
                         <img id="qr-image" src="" alt="QR Code" style="display: none;">
                     </div>
                     <div class="download-buttons">
-                        <button class="btn-download btn-primary" onclick="downloadQR()">
-                            📥 تحميل PNG
-                        </button>
-                        <button class="btn-download btn-secondary" onclick="copyQR()">
-                            📋 نسخ الصورة
-                        </button>
+                        <button class="btn-download btn-primary" onclick="downloadQR()">📥 تحميل</button>
+                        <button class="btn-download btn-secondary" onclick="copyQR()">📋 نسخ</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container">
-        <div class="ad-placeholder">
-            <span>📢 مساحة إعلانية - Google AdSense</span>
-        </div>
-    </div>
-
-    <section class="features" id="features">
-        <div class="container">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem;">✨ لماذا أداة QR Code؟</h2>
-            <p style="text-align: center; color: var(--text-light); font-size: 1.1rem;">أفضل مولد QR Code مجاني على الإنترنت</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🆓</div>
-                    <h3>مجاني 100%</h3>
-                    <p>بدون تسجيل، بدون علامة مائية، وبدون حدود للاستخدام</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>سريع جداً</h3>
-                    <p>إنشاء QR Code في أقل من ثانية</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>آمن وموثوق</h3>
-                    <p>يستخدم API مجرب وموثوق</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>قابل للتخصيص</h3>
-                    <p>اختر الألوان التي تناسبك</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>يعمل على كل الأجهزة</h3>
-                    <p>متجاوب مع الجوال والتابلت</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📥</div>
-                    <h3>تنزيل بجودة عالية</h3>
-                    <p>PNG بجودة طباعية عالية الدقة</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="how-to" id="how-to">
-        <div class="container">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem;">🚀 كيفية الاستخدام</h2>
-            <p style="text-align: center; color: var(--text-light); font-size: 1.1rem;">3 خطوات بسيطة لإنشاء QR Code</p>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h4>أدخل البيانات</h4>
-                    <p>اكتب النص أو الصق الرابط الذي تريد تحويله إلى QR Code</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h4>خصص التصميم</h4>
-                    <p>اختر الألوان المناسبة ونوع البيانات من الخيارات المتاحة</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h4>حمّل واستخدم</h4>
-                    <p>اضغط إنشاء ثم حمّل QR Code بصيغة PNG</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <div class="ad-placeholder">
-            <span>📢 مساحة إعلانية - Google AdSense</span>
-        </div>
-    </div>
-
     <footer>
         <div class="container">
             <div class="footer-links">
-                <a href="#">سياسة الخصوصية</a>
-                <a href="#">شروط الاستخدام</a>
-                <a href="#">عن الموقع</a>
-                <a href="#">اتصل بنا</a>
+                <a href="privacy.html">سياسة الخصوصية</a>
+                <a href="terms.html">شروط الاستخدام</a>
+                <a href="index.html">الرئيسية</a>
             </div>
-            <p>© 2026 مولد QR Code. جميع الحقوق محفوظة.</p>
-            <p style="margin-top: 0.5rem; color: #64748B;">صنع ب❤️ للعالم العربي</p>
+            <p>© 2026 كود مولد. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
@@ -303,57 +131,31 @@
             charCount.textContent = this.value.length;
         });
 
-        let selectedType = 'text';
-
-        function selectType(element, type) {
-            document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
-            element.classList.add('active');
-            selectedType = type;
-            updatePlaceholder();
-        }
-
-        function updatePlaceholder() {
-            const placeholders = {
-                text: 'أدخل أي نص أو رابط...',
-                url: 'https://example.com',
-                email: 'example@email.com',
-                phone: '+20 123 456 7890',
-                wifi: 'WIFI:S:NetworkName;T:WPA;P:Password;;',
-                vcard: 'BEGIN:VCARD\nVERSION:3.0\nFN:الاسم\nTEL:+20123456789\nEMAIL:email@example.com\nEND:VCARD'
-            };
-            textarea.placeholder = placeholders[selectedType] || placeholders.text;
-        }
-
         function generateQR() {
             const text = textarea.value.trim();
 
             if (!text) {
-                showToast('❌ الرجاء إدخال نص أو رابط أولاً');
-                textarea.focus();
+                showToast('❌ الرجاء إدخال نص أولاً');
                 return;
             }
 
             const btn = document.getElementById('generate-btn');
-            btn.innerHTML = '<span>⏳ جاري الإنشاء...</span>';
+            btn.textContent = '⏳ جاري الإنشاء...';
 
-            const qrColor = document.getElementById('qr-color').value.replace('#', '');
-            const qrBg = document.getElementById('qr-bg').value.replace('#', '');
-
-            // Use goqr.me API - reliable and tested
-            const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}&color=${qrColor}&bgcolor=${qrBg}`;
+            // Use goqr.me API - reliable and tested by millions
+            const apiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(text);
 
             const img = document.getElementById('qr-image');
 
             img.onload = function() {
                 document.getElementById('result').classList.add('show');
-                btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
-                document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                btn.textContent = '⚡ إنشاء QR Code';
                 showToast('✅ تم إنشاء QR Code بنجاح!');
             };
 
             img.onerror = function() {
-                showToast('❌ حدث خطأ في تحميل QR Code، جرب مرة أخرى');
-                btn.innerHTML = '<span>⚡ إنشاء QR Code</span>';
+                showToast('❌ حدث خطأ، جرب مرة أخرى');
+                btn.textContent = '⚡ إنشاء QR Code';
             };
 
             img.src = apiUrl;
@@ -363,42 +165,30 @@
         function downloadQR() {
             const img = document.getElementById('qr-image');
             if (!img.src || img.style.display === 'none') {
-                showToast('❌ الرجاء إنشاء QR Code أولاً');
+                showToast('❌ أنشئ QR Code أولاً');
                 return;
             }
 
-            fetch(img.src)
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'qr-code.png';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(url);
-                    showToast('📥 تم التحميل بنجاح!');
-                })
-                .catch(() => showToast('❌ فشل التحميل'));
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'qr-code.png';
+            link.click();
+            showToast('📥 تم التحميل!');
         }
 
         function copyQR() {
             const img = document.getElementById('qr-image');
             if (!img.src || img.style.display === 'none') {
-                showToast('❌ الرجاء إنشاء QR Code أولاً');
+                showToast('❌ أنشئ QR Code أولاً');
                 return;
             }
 
             fetch(img.src)
-                .then(response => response.blob())
+                .then(r => r.blob())
                 .then(blob => {
-                    const item = new ClipboardItem({ 'image/png': blob });
-                    navigator.clipboard.write([item]).then(() => {
-                        showToast('📋 تم النسخ إلى الحافظة!');
-                    }).catch(() => {
-                        showToast('❌ فشل النسخ، حاول التحميل بدلاً من ذلك');
-                    });
+                    navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
+                        .then(() => showToast('📋 تم النسخ!'))
+                        .catch(() => showToast('❌ فشل النسخ'));
                 });
         }
 
@@ -408,12 +198,6 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
-
-        textarea.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && e.ctrlKey) {
-                generateQR();
-            }
-        });
     </script>
 </body>
 </html>
