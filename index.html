@@ -476,7 +476,6 @@
             const btn = document.getElementById('generate-btn');
             const loading = document.getElementById('loading-overlay');
             const result = document.getElementById('result');
-            const container = document.getElementById('qr-container');
 
             // Hide previous result, show loading
             result.classList.remove('show');
@@ -494,15 +493,13 @@
             document.getElementById('preview-text').textContent = data.text;
             document.getElementById('data-preview').style.display = 'block';
 
-            // Use a temporary canvas for generation
-            const tempCanvas = document.createElement('canvas');
-
-            QRCode.toCanvas(tempCanvas, data.text, {
+            // Generate QR using toDataURL approach - more reliable
+            QRCode.toDataURL(data.text, {
                 width: size,
                 margin: 2,
                 color: { dark: color, light: bgColor },
                 errorCorrectionLevel: errorLevel
-            }, function(error) {
+            }, function(error, dataUrl) {
                 if (error) {
                     loading.classList.remove('show');
                     btn.disabled = false;
@@ -511,33 +508,44 @@
                     return;
                 }
 
-                // Get the generated canvas and copy to our display canvas
-                const displayCanvas = document.getElementById('qr-canvas');
-                displayCanvas.width = size;
-                displayCanvas.height = size;
-                const ctx = displayCanvas.getContext('2d');
-                ctx.fillStyle = bgColor;
-                ctx.fillRect(0, 0, size, size);
-                ctx.drawImage(tempCanvas, 0, 0, size, size);
+                // Load the generated QR into an image
+                const qrImg = new Image();
+                qrImg.onload = function() {
+                    // Draw on our display canvas
+                    const displayCanvas = document.getElementById('qr-canvas');
+                    displayCanvas.width = size;
+                    displayCanvas.height = size;
+                    const ctx = displayCanvas.getContext('2d');
+                    ctx.fillStyle = bgColor;
+                    ctx.fillRect(0, 0, size, size);
+                    ctx.drawImage(qrImg, 0, 0, size, size);
 
-                // Apply dot style
-                if (dotStyle !== 'square') {
-                    applyDotStyle(displayCanvas, dotStyle, color, bgColor);
-                }
+                    // Apply dot style
+                    if (dotStyle !== 'square') {
+                        applyDotStyle(displayCanvas, dotStyle, color, bgColor);
+                    }
 
-                // Add logo if present
-                if (logoImage) {
-                    addLogoToQR(displayCanvas, logoImage);
-                }
+                    // Add logo if present
+                    if (logoImage) {
+                        addLogoToQR(displayCanvas, logoImage);
+                    }
 
-                currentQRData = displayCanvas.toDataURL('image/png');
+                    currentQRData = displayCanvas.toDataURL('image/png');
 
-                // Hide loading, show result
-                loading.classList.remove('show');
-                result.classList.add('show');
-                btn.disabled = false;
-                btn.textContent = '⚡ إنشاء QR Code';
-                showToast('✅ تم إنشاء QR Code بنجاح!');
+                    // Hide loading, show result
+                    loading.classList.remove('show');
+                    result.classList.add('show');
+                    btn.disabled = false;
+                    btn.textContent = '⚡ إنشاء QR Code';
+                    showToast('✅ تم إنشاء QR Code بنجاح!');
+                };
+                qrImg.onerror = function() {
+                    loading.classList.remove('show');
+                    btn.disabled = false;
+                    btn.textContent = '⚡ إنشاء QR Code';
+                    showToast('❌ فشل تحميل QR Code');
+                };
+                qrImg.src = dataUrl;
             });
         }
 
