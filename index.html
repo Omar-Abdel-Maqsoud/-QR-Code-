@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مولد QR Code مجاني | Free QR Code Generator</title>
-    <meta name="description" content="أفضل مولد QR Code مجاني عربي. أنشئ QR Code بأشكال وألوان مخصصة لروابطك في ثوانٍ.">
-    <meta name="keywords" content="مولد QR Code, QR Code Generator, باركود, مجاني, free">
+    <meta name="description" content="أفضل مولد QR Code مجاني عربي. أنشئ QR Code لروابط، أرقام، بريد، واي فاي، وبطاقات تواصل بأشكال وألوان مخصصة.">
+    <meta name="keywords" content="مولد QR Code, QR Code Generator, باركود, رقم هاتف, بريد إلكتروني, واي فاي, بطاقة تواصل, vcard, مجاني">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #4F46E5;
             --primary-dark: #4338CA;
             --secondary: #10B981;
+            --danger: #EF4444;
             --bg: #F8FAFC;
             --card: #FFFFFF;
             --text: #1E293B;
             --text-light: #64748B;
             --border: #E2E8F0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,13 +36,55 @@
         .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: #ECFDF5; color: var(--secondary); padding: 0.5rem 1rem; border-radius: 50px; font-weight: 600; font-size: 0.875rem; }
         .tool-section { padding: 2rem 0 4rem; }
         .tool-card { background: var(--card); border-radius: 24px; box-shadow: var(--shadow-lg); padding: 3rem; max-width: 900px; margin: 0 auto; }
-        .input-group { margin-bottom: 2rem; }
-        .input-group label { display: block; font-weight: 700; margin-bottom: 0.75rem; font-size: 1.1rem; }
-        textarea { width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--border); border-radius: 16px; font-family: 'Tajawal'; font-size: 1rem; background: var(--bg); resize: vertical; min-height: 120px; }
-        textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
-        .char-count { text-align: left; color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem; }
 
-        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        /* Type Selector */
+        .type-selector { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
+        .type-btn {
+            padding: 0.75rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .type-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .type-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Form Sections */
+        .form-section { display: none; }
+        .form-section.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .input-group { margin-bottom: 1.5rem; }
+        .input-group label { display: block; font-weight: 700; margin-bottom: 0.5rem; font-size: 1rem; }
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Tajawal';
+            font-size: 1rem;
+            background: var(--bg);
+            transition: all 0.3s;
+        }
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+        .input-group textarea { resize: vertical; min-height: 100px; }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .char-count { text-align: left; color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem; }
+        .hint { color: var(--text-light); font-size: 0.85rem; margin-top: 0.25rem; }
+
+        /* Options */
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
         .option-group { background: var(--bg); padding: 1.25rem; border-radius: 16px; }
         .option-group label { display: block; font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem; }
         .option-group input[type="color"] { width: 100%; height: 45px; border: none; border-radius: 10px; cursor: pointer; }
@@ -48,23 +92,29 @@
         .option-group select { width: 100%; padding: 0.75rem; border: 2px solid var(--border); border-radius: 10px; font-family: 'Tajawal'; font-size: 1rem; background: white; }
         .range-value { text-align: center; color: var(--primary); font-weight: 700; margin-top: 0.5rem; }
 
-        .btn-generate { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 16px; font-family: 'Tajawal'; font-size: 1.25rem; font-weight: 700; cursor: pointer; }
-        .btn-generate:hover { transform: translateY(-2px); }
+        .btn-generate { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 16px; font-family: 'Tajawal'; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
         .result-section { margin-top: 3rem; text-align: center; display: none; }
         .result-section.show { display: block; }
         .qr-container { background: var(--bg); border-radius: 24px; padding: 3rem; margin-bottom: 2rem; display: inline-block; }
         .qr-container canvas { display: block; margin: 0 auto; border-radius: 12px; }
         .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn-download { padding: 0.875rem 2rem; border-radius: 12px; font-family: 'Tajawal'; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; }
+        .btn-download { padding: 0.875rem 2rem; border-radius: 12px; font-family: 'Tajawal'; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; transition: all 0.3s; }
         .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
         .btn-secondary { background: var(--bg); color: var(--text); border: 2px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+        .data-preview { background: var(--bg); border-radius: 12px; padding: 1rem; margin: 1rem 0; text-align: right; font-size: 0.9rem; color: var(--text-light); word-break: break-all; }
+        .data-preview strong { color: var(--text); }
+
         footer { background: var(--text); color: white; padding: 3rem 0 2rem; text-align: center; margin-top: 4rem; }
         .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
         .footer-links a { color: #94A3B8; text-decoration: none; }
         .footer-links a:hover { color: white; }
         .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: white; padding: 1rem 2rem; border-radius: 12px; font-weight: 600; z-index: 1000; opacity: 0; transition: all 0.3s; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } .options-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } .options-grid { grid-template-columns: 1fr; } .input-row { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -89,19 +139,132 @@
         <div class="container">
             <div class="badge">✨ مجاني 100% - بدون تسجيل</div>
             <h1>مولد QR Code احترافي</h1>
-            <p>أنشئ QR Code مخصص بألوان وأشكال مختلفة. سريع، مجاني، وبدون علامة مائية.</p>
+            <p>أنشئ QR Code لأي نوع بيانات: روابط، أرقام، بريد، واي فاي، وبطاقات تواصل. بألوان وأشكال مخصصة.</p>
         </div>
     </section>
 
     <section class="tool-section">
         <div class="container">
             <div class="tool-card">
-                <div class="input-group">
-                    <label for="qr-text">📝 أدخل النص أو الرابط</label>
-                    <textarea id="qr-text" placeholder="مثال: https://google.com" maxlength="3000"></textarea>
-                    <div class="char-count"><span id="char-count">0</span> / 3000 حرف</div>
+                <!-- Type Selector -->
+                <div class="type-selector">
+                    <button class="type-btn active" data-type="url" onclick="switchType('url')">🌐 رابط</button>
+                    <button class="type-btn" data-type="text" onclick="switchType('text')">📝 نص</button>
+                    <button class="type-btn" data-type="phone" onclick="switchType('phone')">📱 رقم هاتف</button>
+                    <button class="type-btn" data-type="email" onclick="switchType('email')">📧 بريد إلكتروني</button>
+                    <button class="type-btn" data-type="wifi" onclick="switchType('wifi')">📶 واي فاي</button>
+                    <button class="type-btn" data-type="vcard" onclick="switchType('vcard')">👤 بطاقة تواصل</button>
                 </div>
 
+                <!-- URL Form -->
+                <div class="form-section active" id="form-url">
+                    <div class="input-group">
+                        <label for="url-input">🌐 أدخل الرابط</label>
+                        <input type="url" id="url-input" placeholder="https://example.com" value="https://">
+                        <div class="hint">مثال: https://google.com</div>
+                    </div>
+                </div>
+
+                <!-- Text Form -->
+                <div class="form-section" id="form-text">
+                    <div class="input-group">
+                        <label for="text-input">📝 أدخل النص</label>
+                        <textarea id="text-input" placeholder="اكتب أي نص هنا..." maxlength="3000"></textarea>
+                        <div class="char-count"><span id="text-char-count">0</span> / 3000 حرف</div>
+                    </div>
+                </div>
+
+                <!-- Phone Form -->
+                <div class="form-section" id="form-phone">
+                    <div class="input-group">
+                        <label for="phone-input">📱 رقم الهاتف</label>
+                        <input type="tel" id="phone-input" placeholder="+20 123 456 7890">
+                        <div class="hint">أضف كود الدولة (مثال: +20 لمصر، +966 للسعودية)</div>
+                    </div>
+                </div>
+
+                <!-- Email Form -->
+                <div class="form-section" id="form-email">
+                    <div class="input-group">
+                        <label for="email-address">📧 البريد الإلكتروني</label>
+                        <input type="email" id="email-address" placeholder="your@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="email-subject">📌 الموضوع (اختياري)</label>
+                        <input type="text" id="email-subject" placeholder="موضوع الرسالة">
+                    </div>
+                    <div class="input-group">
+                        <label for="email-body">📝 نص الرسالة (اختياري)</label>
+                        <textarea id="email-body" placeholder="نص الرسالة..." maxlength="1000"></textarea>
+                    </div>
+                </div>
+
+                <!-- WiFi Form -->
+                <div class="form-section" id="form-wifi">
+                    <div class="input-group">
+                        <label for="wifi-ssid">📶 اسم الشبكة (SSID)</label>
+                        <input type="text" id="wifi-ssid" placeholder="MyWiFi">
+                    </div>
+                    <div class="input-group">
+                        <label for="wifi-password">🔑 كلمة المرور</label>
+                        <input type="text" id="wifi-password" placeholder="كلمة المرور">
+                    </div>
+                    <div class="input-group">
+                        <label for="wifi-type">🔒 نوع التشفير</label>
+                        <select id="wifi-type">
+                            <option value="WPA">WPA/WPA2</option>
+                            <option value="WEP">WEP</option>
+                            <option value="nopass">بدون كلمة مرور</option>
+                        </select>
+                    </div>
+                    <div class="hint">عند مسح QR Code، سيتم الاتصال بالشبكة تلقائياً</div>
+                </div>
+
+                <!-- vCard Form -->
+                <div class="form-section" id="form-vcard">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="vcard-firstname">👤 الاسم الأول</label>
+                            <input type="text" id="vcard-firstname" placeholder="محمد">
+                        </div>
+                        <div class="input-group">
+                            <label for="vcard-lastname">👤 الاسم الأخير</label>
+                            <input type="text" id="vcard-lastname" placeholder="أحمد">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="vcard-phone">📱 رقم الهاتف</label>
+                        <input type="tel" id="vcard-phone" placeholder="+20 123 456 7890">
+                    </div>
+                    <div class="input-group">
+                        <label for="vcard-email">📧 البريد الإلكتروني</label>
+                        <input type="email" id="vcard-email" placeholder="email@example.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="vcard-org">🏢 الشركة / المؤسسة</label>
+                        <input type="text" id="vcard-org" placeholder="اسم الشركة">
+                    </div>
+                    <div class="input-group">
+                        <label for="vcard-title">💼 المسمى الوظيفي</label>
+                        <input type="text" id="vcard-title" placeholder="مدير تنفيذي">
+                    </div>
+                    <div class="input-group">
+                        <label for="vcard-website">🌐 الموقع الإلكتروني</label>
+                        <input type="url" id="vcard-website" placeholder="https://example.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="vcard-address">📍 العنوان</label>
+                        <textarea id="vcard-address" placeholder="العنوان الكامل..." rows="2"></textarea>
+                    </div>
+                </div>
+
+                <!-- Data Preview -->
+                <div class="data-preview" id="data-preview" style="display:none;">
+                    <strong>📋 البيانات المشفرة:</strong><br>
+                    <span id="preview-text"></span>
+                </div>
+
+                <!-- Options -->
                 <div class="options-grid">
                     <div class="option-group">
                         <label>🎨 لون QR Code</label>
@@ -173,43 +336,125 @@
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script>
-        const textarea = document.getElementById('qr-text');
-        const charCount = document.getElementById('char-count');
-        const sizeSlider = document.getElementById('qr-size');
-        const sizeValue = document.getElementById('size-value');
-
-        textarea.addEventListener('input', function() {
-            charCount.textContent = this.value.length;
-        });
-
-        sizeSlider.addEventListener('input', function() {
-            sizeValue.textContent = this.value + ' px';
-        });
-
-        let currentQRData = null;
+        let currentType = 'url';
         let logoImage = null;
+        let currentQRData = null;
 
+        // Type switching
+        function switchType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.form-section').forEach(form => form.classList.remove('active'));
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            document.getElementById(`form-${type}`).classList.add('active');
+            document.getElementById('data-preview').style.display = 'none';
+            document.getElementById('result').classList.remove('show');
+        }
+
+        // Character count
+        document.getElementById('text-input').addEventListener('input', function() {
+            document.getElementById('text-char-count').textContent = this.value.length;
+        });
+
+        // Size slider
+        document.getElementById('qr-size').addEventListener('input', function() {
+            document.getElementById('size-value').textContent = this.value + ' px';
+        });
+
+        // Logo upload
         document.getElementById('logo-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     logoImage = new Image();
-                    logoImage.onload = function() {
-                        showToast('✅ تم تحميل الشعار!');
-                    };
+                    logoImage.onload = function() { showToast('✅ تم تحميل الشعار!'); };
                     logoImage.src = event.target.result;
                 };
                 reader.readAsDataURL(file);
             }
         });
 
+        // Build QR data based on type
+        function buildQRData() {
+            switch(currentType) {
+                case 'url':
+                    const url = document.getElementById('url-input').value.trim();
+                    if (!url) return null;
+                    return { text: url, label: url };
+
+                case 'text':
+                    const text = document.getElementById('text-input').value.trim();
+                    if (!text) return null;
+                    return { text: text, label: text };
+
+                case 'phone':
+                    const phone = document.getElementById('phone-input').value.trim();
+                    if (!phone) return null;
+                    return { text: 'tel:' + phone, label: phone };
+
+                case 'email':
+                    const email = document.getElementById('email-address').value.trim();
+                    if (!email) return null;
+                    let mailto = 'mailto:' + email;
+                    const subject = document.getElementById('email-subject').value.trim();
+                    const body = document.getElementById('email-body').value.trim();
+                    if (subject || body) {
+                        mailto += '?';
+                        if (subject) mailto += 'subject=' + encodeURIComponent(subject);
+                        if (body) mailto += (subject ? '&' : '') + 'body=' + encodeURIComponent(body);
+                    }
+                    return { text: mailto, label: email };
+
+                case 'wifi':
+                    const ssid = document.getElementById('wifi-ssid').value.trim();
+                    const password = document.getElementById('wifi-password').value;
+                    const enc = document.getElementById('wifi-type').value;
+                    if (!ssid) return null;
+                    // WiFi QR format: WIFI:T:WPA;S:SSID;P:PASSWORD;;
+                    let wifiText = 'WIFI:T:' + enc + ';S:' + ssid;
+                    if (enc !== 'nopass' && password) wifiText += ';P:' + password;
+                    wifiText += ';;';
+                    return { text: wifiText, label: 'WiFi: ' + ssid };
+
+                case 'vcard':
+                    const fn = document.getElementById('vcard-firstname').value.trim();
+                    const ln = document.getElementById('vcard-lastname').value.trim();
+                    const vphone = document.getElementById('vcard-phone').value.trim();
+                    const vemail = document.getElementById('vcard-email').value.trim();
+                    const org = document.getElementById('vcard-org').value.trim();
+                    const title = document.getElementById('vcard-title').value.trim();
+                    const website = document.getElementById('vcard-website').value.trim();
+                    const address = document.getElementById('vcard-address').value.trim();
+                    if (!fn && !ln) return null;
+
+                    let vcard = 'BEGIN:VCARD\nVERSION:3.0\n';
+                    vcard += 'N:' + (ln || '') + ';' + (fn || '') + ';;;;\n';
+                    vcard += 'FN:' + (fn || '') + ' ' + (ln || '') + '\n';
+                    if (vphone) vcard += 'TEL;TYPE=CELL:' + vphone + '\n';
+                    if (vemail) vcard += 'EMAIL:' + vemail + '\n';
+                    if (org) vcard += 'ORG:' + org + '\n';
+                    if (title) vcard += 'TITLE:' + title + '\n';
+                    if (website) vcard += 'URL:' + website + '\n';
+                    if (address) vcard += 'ADR;TYPE=HOME:;;' + address + '\n';
+                    vcard += 'END:VCARD';
+                    return { text: vcard, label: (fn || '') + ' ' + (ln || '') };
+
+                default:
+                    return null;
+            }
+        }
+
         function generateQR() {
-            const text = textarea.value.trim();
-            if (!text) {
-                showToast('❌ الرجاء إدخال نص أولاً');
+            const data = buildQRData();
+            if (!data) {
+                showToast('❌ الرجاء إدخال البيانات أولاً');
                 return;
             }
+
+            // Show preview
+            document.getElementById('preview-text').textContent = data.text;
+            document.getElementById('data-preview').style.display = 'block';
 
             const btn = document.getElementById('generate-btn');
             btn.textContent = '⏳ جاري الإنشاء...';
@@ -224,18 +469,13 @@
             canvas.width = size;
             canvas.height = size;
             const ctx = canvas.getContext('2d');
-
-            // Fill background
             ctx.fillStyle = bgColor;
             ctx.fillRect(0, 0, size, size);
 
-            QRCode.toCanvas(canvas, text, {
+            QRCode.toCanvas(canvas, data.text, {
                 width: size,
                 margin: 2,
-                color: {
-                    dark: color,
-                    light: bgColor
-                },
+                color: { dark: color, light: bgColor },
                 errorCorrectionLevel: errorLevel
             }, function(error) {
                 if (error) {
@@ -243,17 +483,8 @@
                     btn.textContent = '⚡ إنشاء QR Code';
                     return;
                 }
-
-                // Apply dot style
-                if (dotStyle !== 'square') {
-                    applyDotStyle(canvas, dotStyle, color, bgColor);
-                }
-
-                // Add logo if present
-                if (logoImage) {
-                    addLogoToQR(canvas, logoImage);
-                }
-
+                if (dotStyle !== 'square') applyDotStyle(canvas, dotStyle, color, bgColor);
+                if (logoImage) addLogoToQR(canvas, logoImage);
                 currentQRData = canvas.toDataURL('image/png');
                 document.getElementById('result').classList.add('show');
                 btn.textContent = '⚡ إنشاء QR Code';
@@ -266,31 +497,24 @@
             const size = canvas.width;
             const imageData = ctx.getImageData(0, 0, size, size);
             const data = imageData.data;
-
-            // Clear and redraw with style
             ctx.fillStyle = bgColor;
             ctx.fillRect(0, 0, size, size);
-
             const moduleSize = size / Math.sqrt(data.length / 4);
-            const cellSize = moduleSize;
-
-            for (let y = 0; y < size; y += cellSize) {
-                for (let x = 0; x < size; x += cellSize) {
+            for (let y = 0; y < size; y += moduleSize) {
+                for (let x = 0; x < size; x += moduleSize) {
                     const idx = (Math.floor(y) * size + Math.floor(x)) * 4;
-                    const isDark = data[idx] < 128;
-
-                    if (isDark) {
+                    if (data[idx] < 128) {
                         ctx.fillStyle = color;
                         if (style === 'rounded') {
                             ctx.beginPath();
-                            ctx.roundRect(x + 1, y + 1, cellSize - 2, cellSize - 2, cellSize / 3);
+                            ctx.roundRect(x + 1, y + 1, moduleSize - 2, moduleSize - 2, moduleSize / 3);
                             ctx.fill();
                         } else if (style === 'dots') {
                             ctx.beginPath();
-                            ctx.arc(x + cellSize/2, y + cellSize/2, cellSize/2 - 1, 0, Math.PI * 2);
+                            ctx.arc(x + moduleSize/2, y + moduleSize/2, moduleSize/2 - 1, 0, Math.PI * 2);
                             ctx.fill();
                         } else {
-                            ctx.fillRect(x, y, cellSize, cellSize);
+                            ctx.fillRect(x, y, moduleSize, moduleSize);
                         }
                     }
                 }
@@ -303,23 +527,16 @@
             const logoSize = Math.floor(size * 0.25);
             const x = (size - logoSize) / 2;
             const y = (size - logoSize) / 2;
-
-            // White background for logo area
             ctx.fillStyle = 'white';
             ctx.beginPath();
             ctx.roundRect(x - 5, y - 5, logoSize + 10, logoSize + 10, 10);
             ctx.fill();
-
             ctx.drawImage(logo, x, y, logoSize, logoSize);
         }
 
         function downloadQR(format = 'png') {
             const canvas = document.getElementById('qr-canvas');
-            if (!canvas.width) {
-                showToast('❌ أنشئ QR Code أولاً');
-                return;
-            }
-
+            if (!canvas.width) { showToast('❌ أنشئ QR Code أولاً'); return; }
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/' + format);
             link.download = 'qr-code.' + format;
@@ -329,11 +546,7 @@
 
         function copyQR() {
             const canvas = document.getElementById('qr-canvas');
-            if (!canvas.width) {
-                showToast('❌ أنشئ QR Code أولاً');
-                return;
-            }
-
+            if (!canvas.width) { showToast('❌ أنشئ QR Code أولاً'); return; }
             canvas.toBlob(function(blob) {
                 navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
                     .then(() => showToast('📋 تم النسخ!'))
