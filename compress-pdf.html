@@ -3,18 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ضاغط الصور المجاني | Free Image Compressor</title>
-    <meta name="description" content="أفضل ضاغط صور مجاني عربي. اضغط صور JPG و PNG و WebP بدون فقدان الجودة. سريع وآمن 100%.">
-    <meta name="keywords" content="ضاغط صور, image compressor, ضغط JPG, ضغط PNG, مجاني, free">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CK24Y3DM0P"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-CK24Y3DM0P');
-    </script>
+    <title>ضاغط PDF المجاني | Free PDF Compressor</title>
+    <meta name="description" content="أفضل ضاغط PDF مجاني عربي. قلّل حجم ملفات PDF مباشرة في متصفحك بدون رفع أي ملف لأي خادم. سريع وآمن 100%.">
+    <meta name="keywords" content="ضاغط PDF, PDF compressor, تصغير حجم PDF, ضغط ملفات PDF, مجاني, free">
 
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
@@ -70,22 +61,26 @@
         .upload-subtext { color: var(--text-light); }
         #file-input { display: none; }
 
+        .file-chip { display: flex; align-items: center; gap: 0.75rem; background: var(--bg); border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+        .file-chip .file-icon { font-size: 1.75rem; }
+        .file-chip .file-meta { flex: 1; }
+        .file-chip .file-name { font-weight: 700; word-break: break-all; }
+        .file-chip .file-size { color: var(--text-light); font-size: 0.875rem; }
+        .file-chip button { background: none; border: none; color: var(--text-light); font-size: 1.25rem; cursor: pointer; }
+        .file-chip button:hover { color: var(--danger); }
+
         /* Compression Options */
         .options { margin: 2rem 0; }
         .options h3 { font-weight: 700; margin-bottom: 1rem; }
         .quality-slider { width: 100%; margin: 1rem 0; }
         .quality-labels { display: flex; justify-content: space-between; color: var(--text-light); font-size: 0.875rem; }
+        .method-note { background: var(--bg); border-radius: 12px; padding: 1rem 1.25rem; margin-top: 1.25rem; font-size: 0.875rem; color: var(--text-light); line-height: 1.7; }
+        .method-note strong { color: var(--text); }
 
-        /* Image Preview */
+        /* Preview */
         .preview-section { display: none; margin-top: 2rem; }
         .preview-section.show { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
-        .image-box { background: var(--bg); border-radius: 16px; padding: 1.5rem; text-align: center; }
-        .image-box h4 { margin-bottom: 1rem; font-weight: 700; }
-        .image-box img { max-width: 100%; border-radius: 12px; max-height: 300px; object-fit: contain; }
-        .file-info { margin-top: 1rem; color: var(--text-light); font-size: 0.875rem; }
 
         /* Stats */
         .stats { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border-radius: 16px; padding: 1.5rem; text-align: center; margin: 2rem 0; }
@@ -97,6 +92,7 @@
         .btn { padding: 1rem 2rem; border-radius: 12px; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s; border: none; display: inline-flex; align-items: center; gap: 0.5rem; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
         .btn-primary:hover { transform: translateY(-2px); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .btn-secondary { background: var(--bg); color: var(--text); border: 2px solid var(--border); }
         .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
 
@@ -115,13 +111,16 @@
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
         /* Responsive */
-        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } .comparison { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } .stats-grid { grid-template-columns: 1fr; } }
 
         /* Loading */
         .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+        .spinner-dark { width: 50px; height: 50px; border: 4px solid rgba(79, 70, 229, 0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .compressing { display: none; text-align: center; padding: 2rem; }
         .compressing.show { display: block; }
+        .progress-bar { width: 100%; max-width: 320px; height: 8px; background: var(--border); border-radius: 50px; margin: 1rem auto 0; overflow: hidden; }
+        .progress-bar-fill { height: 100%; width: 0%; background: var(--primary); transition: width 0.2s; }
     </style>
 </head>
 <body>
@@ -136,8 +135,8 @@
                 <nav>
                     <a href="index.html">🏠 الرئيسية</a>
                     <a href="index.html#tool">📱 مولد QR</a>
-                    <a href="compress-image.html" style="color: var(--primary); font-weight: 700;">🗜️ ضاغط الصور</a>
-                    <a href="compress-pdf.html">📄 ضاغط PDF</a>
+                    <a href="compress-image.html">🗜️ ضاغط الصور</a>
+                    <a href="compress-pdf.html" style="color: var(--primary); font-weight: 700;">📄 ضاغط PDF</a>
                 </nav>
             </div>
         </div>
@@ -147,8 +146,8 @@
     <section class="hero">
         <div class="container">
             <div class="badge">✨ مجاني 100% - بدون تسجيل</div>
-            <h1>ضاغط الصور الذكي</h1>
-            <p>اضغط صور JPG و PNG و WebP بدون فقدان الجودة. سريع، آمن، ومجاني 100%.</p>
+            <h1>ضاغط PDF الذكي</h1>
+            <p>قلّل حجم ملفات PDF مباشرة في متصفحك، بدون رفع الملف لأي خادم. سريع، آمن، ومجاني 100%.</p>
         </div>
     </section>
 
@@ -165,35 +164,49 @@
             <div class="tool-card">
                 <!-- Upload Area -->
                 <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-                    <div class="upload-icon">📁</div>
-                    <div class="upload-text">اسحب الصورة هنا أو اضغط للاختيار</div>
-                    <div class="upload-subtext">يدعم JPG, PNG, WebP - حتى 10 ميجا</div>
-                    <input type="file" id="file-input" accept="image/*" onchange="handleFile(this.files[0])">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">اسحب ملف PDF هنا أو اضغط للاختيار</div>
+                    <div class="upload-subtext">حتى 25 ميجا</div>
+                    <input type="file" id="file-input" accept="application/pdf" onchange="handleFile(this.files[0])">
+                </div>
+
+                <!-- Selected file -->
+                <div class="file-chip" id="file-chip" style="display: none;">
+                    <div class="file-icon">📄</div>
+                    <div class="file-meta">
+                        <div class="file-name" id="file-name"></div>
+                        <div class="file-size" id="file-size"></div>
+                    </div>
+                    <button onclick="resetTool()" title="إزالة الملف">✕</button>
                 </div>
 
                 <!-- Compression Options -->
                 <div class="options" id="options" style="display: none;">
-                    <h3>⚙️ جودة الضغط</h3>
-                    <input type="range" class="quality-slider" id="quality" min="1" max="100" value="80">
+                    <h3>⚙️ مستوى الضغط</h3>
+                    <input type="range" class="quality-slider" id="quality" min="1" max="100" value="70">
                     <div class="quality-labels">
                         <span>أصغر حجم (جودة أقل)</span>
-                        <span id="quality-value">80%</span>
+                        <span id="quality-value">70%</span>
                         <span>أفضل جودة (حجم أكبر)</span>
                     </div>
-                    <button class="btn btn-primary" onclick="compressImage()" style="margin-top: 1rem; width: 100%;">
-                        <span id="compress-btn-text">🗜️ اضغط الصورة</span>
+                    <button class="btn btn-primary" onclick="compressPDF()" style="margin-top: 1rem; width: 100%;" id="compress-btn">
+                        <span id="compress-btn-text">🗜️ اضغط الملف</span>
                     </button>
+                    <div class="method-note">
+                        💡 <strong>طريقة العمل:</strong> يعيد الضاغط رسم كل صفحة كصورة محسّنة الجودة، لذلك يعطي أفضل النتائج مع ملفات PDF الممسوحة ضوئياً (سكانر) أو الغنية بالصور. النص في الملف الناتج يصبح جزءاً من الصورة وغير قابل للتحديد.
+                    </div>
                 </div>
 
                 <!-- Compressing -->
                 <div class="compressing" id="compressing">
-                    <div class="spinner"></div>
-                    <p style="margin-top: 1rem;">جاري ضغط الصورة...</p>
+                    <div class="spinner-dark"></div>
+                    <p id="progress-text">جاري ضغط الملف...</p>
+                    <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
                 </div>
 
-                <!-- Preview -->
+                <!-- Preview / Results -->
                 <div class="preview-section" id="preview-section">
-                    <h3 style="text-align: center; margin-bottom: 1rem;">📊 مقارنة قبل وبعد</h3>
+                    <h3 style="text-align: center; margin-bottom: 1rem;">📊 نتيجة الضغط</h3>
 
                     <div class="stats">
                         <div class="stats-grid">
@@ -212,25 +225,12 @@
                         </div>
                     </div>
 
-                    <div class="comparison">
-                        <div class="image-box">
-                            <h4>📷 الصورة الأصلية</h4>
-                            <img id="original-img" src="" alt="Original">
-                            <div class="file-info" id="original-info"></div>
-                        </div>
-                        <div class="image-box">
-                            <h4>✨ الصورة المضغوطة</h4>
-                            <img id="compressed-img" src="" alt="Compressed">
-                            <div class="file-info" id="compressed-info"></div>
-                        </div>
-                    </div>
-
                     <div style="text-align: center;">
-                        <a id="download-link" class="btn btn-primary" download="compressed-image.jpg">
-                            📥 تحميل الصورة المضغوطة
+                        <a id="download-link" class="btn btn-primary" download="compressed.pdf">
+                            📥 تحميل الملف المضغوط
                         </a>
                         <button class="btn btn-secondary" onclick="resetTool()">
-                            🔄 ضغط صورة أخرى
+                            🔄 ضغط ملف آخر
                         </button>
                     </div>
                 </div>
@@ -251,7 +251,7 @@
             <div class="footer-links">
                 <a href="privacy.html">سياسة الخصوصية</a>
                 <a href="terms.html">شروط الاستخدام</a>
-                <a href="about.html">عن الموقع</a>
+                <a href="index.html">الرئيسية</a>
             </div>
             <p>© 2026 أدواتي. جميع الحقوق محفوظة.</p>
             <p style="margin-top: 0.5rem; color: #64748B;">صنع ب❤️ للعالم العربي</p>
@@ -261,9 +261,15 @@
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
+    <!-- pdf.js (renders pages) -->
+    <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+    <!-- pdf-lib (rebuilds the compressed PDF) -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
     <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+
         let originalFile = null;
-        let originalImage = null;
 
         // Drag and drop
         const uploadArea = document.getElementById('upload-area');
@@ -281,10 +287,10 @@
             e.preventDefault();
             uploadArea.classList.remove('dragover');
             const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) {
+            if (file && file.type === 'application/pdf') {
                 handleFile(file);
             } else {
-                showToast('❌ الرجاء اختيار ملف صورة صالح');
+                showToast('❌ الرجاء اختيار ملف PDF صالح');
             }
         });
 
@@ -295,104 +301,135 @@
             qualityValue.textContent = this.value + '%';
         });
 
+        function formatSize(bytes) {
+            if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
         function handleFile(file) {
-            if (!file || !file.type.startsWith('image/')) {
-                showToast('❌ الرجاء اختيار ملف صورة (JPG, PNG, WebP)');
+            if (!file || file.type !== 'application/pdf') {
+                showToast('❌ الرجاء اختيار ملف PDF صالح');
                 return;
             }
 
-            if (file.size > 10 * 1024 * 1024) {
-                showToast('❌ حجم الملف كبير جداً. الحد الأقصى 10 ميجا');
+            if (file.size > 25 * 1024 * 1024) {
+                showToast('❌ حجم الملف كبير جداً. الحد الأقصى 25 ميجا');
                 return;
             }
 
             originalFile = file;
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                originalImage = new Image();
-                originalImage.onload = function() {
-                    document.getElementById('options').style.display = 'block';
-                    document.getElementById('upload-area').style.display = 'none';
-                    showToast('✅ تم تحميل الصورة بنجاح!');
-                };
-                originalImage.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+            document.getElementById('file-name').textContent = file.name;
+            document.getElementById('file-size').textContent = formatSize(file.size);
+            document.getElementById('file-chip').style.display = 'flex';
+            document.getElementById('options').style.display = 'block';
+            document.getElementById('upload-area').style.display = 'none';
+            document.getElementById('preview-section').classList.remove('show');
+            showToast('✅ تم تحميل الملف بنجاح!');
         }
 
-        function compressImage() {
-            if (!originalImage) return;
+        async function compressPDF() {
+            if (!originalFile) return;
 
             const quality = document.getElementById('quality').value / 100;
+            // Map quality (0.01-1) to a render scale between 1.0x and 2.2x so
+            // higher quality also keeps sharper page images.
+            const scale = 1.0 + quality * 1.2;
+            // JPEG quality follows the slider directly, with a sensible floor.
+            const jpegQuality = Math.max(0.35, quality);
 
-            document.getElementById('compressing').classList.add('show');
             document.getElementById('options').style.display = 'none';
+            document.getElementById('compressing').classList.add('show');
+            document.getElementById('compress-btn').disabled = true;
 
-            setTimeout(() => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+            try {
+                const arrayBuffer = await originalFile.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer.slice(0) }).promise;
+                const numPages = pdf.numPages;
 
-                // Calculate new dimensions (max 2048px)
-                let width = originalImage.width;
-                let height = originalImage.height;
-                const maxDim = 2048;
+                const { PDFDocument } = PDFLib;
+                const newPdf = await PDFDocument.create();
 
-                if (width > maxDim || height > maxDim) {
-                    if (width > height) {
-                        height = (height / width) * maxDim;
-                        width = maxDim;
-                    } else {
-                        width = (width / height) * maxDim;
-                        height = maxDim;
-                    }
+                for (let i = 1; i <= numPages; i++) {
+                    document.getElementById('progress-text').textContent =
+                        `جاري معالجة الصفحة ${i} من ${numPages}...`;
+                    document.getElementById('progress-fill').style.width =
+                        Math.round((i / numPages) * 100) + '%';
+
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({ scale });
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(viewport.width);
+                    canvas.height = Math.round(viewport.height);
+                    const ctx = canvas.getContext('2d');
+
+                    await page.render({ canvasContext: ctx, viewport }).promise;
+
+                    const jpegDataUrl = canvas.toDataURL('image/jpeg', jpegQuality);
+                    const jpegBytes = await (await fetch(jpegDataUrl)).arrayBuffer();
+                    const embeddedImage = await newPdf.embedJpg(jpegBytes);
+
+                    // Keep the original page proportions (in PDF points, not pixels)
+                    const originalViewport = page.getViewport({ scale: 1 });
+                    const newPage = newPdf.addPage([originalViewport.width, originalViewport.height]);
+                    newPage.drawImage(embeddedImage, {
+                        x: 0,
+                        y: 0,
+                        width: originalViewport.width,
+                        height: originalViewport.height
+                    });
+
+                    // Free canvas memory before moving to the next page
+                    canvas.width = 0;
+                    canvas.height = 0;
                 }
 
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(originalImage, 0, 0, width, height);
+                const compressedBytes = await newPdf.save();
+                const compressedBlob = new Blob([compressedBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(compressedBlob);
 
-                // Compress
-                const mimeType = originalFile.type === 'image/png' ? 'image/jpeg' : originalFile.type;
-                const compressedDataUrl = canvas.toDataURL(mimeType, quality);
+                const originalSize = originalFile.size;
+                const compressedSize = compressedBlob.size;
+                const savings = Math.max(0, Math.round(((originalSize - compressedSize) / originalSize) * 100));
 
-                // Calculate sizes
-                const originalSize = Math.round(originalFile.size / 1024);
-                const compressedSize = Math.round((compressedDataUrl.length * 0.75) / 1024);
-                const savings = Math.round(((originalSize - compressedSize) / originalSize) * 100);
-
-                // Update UI
-                document.getElementById('original-size').textContent = originalSize + ' KB';
-                document.getElementById('compressed-size').textContent = compressedSize + ' KB';
+                document.getElementById('original-size').textContent = formatSize(originalSize);
+                document.getElementById('compressed-size').textContent = formatSize(compressedSize);
                 document.getElementById('savings').textContent = savings + '%';
 
-                document.getElementById('original-img').src = originalImage.src;
-                document.getElementById('compressed-img').src = compressedDataUrl;
-
-                document.getElementById('original-info').textContent = 
-                    originalImage.width + 'x' + originalImage.height + ' | ' + originalFile.type.split('/')[1].toUpperCase();
-                document.getElementById('compressed-info').textContent = 
-                    width + 'x' + height + ' | ' + mimeType.split('/')[1].toUpperCase();
-
-                document.getElementById('download-link').href = compressedDataUrl;
-                document.getElementById('download-link').download = 'compressed-' + originalFile.name;
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = url;
+                downloadLink.download = originalFile.name.replace(/\.pdf$/i, '') + '-compressed.pdf';
 
                 document.getElementById('compressing').classList.remove('show');
+                document.getElementById('compress-btn').disabled = false;
                 document.getElementById('preview-section').classList.add('show');
 
-                showToast('✅ تم ضغط الصورة بنجاح! وفّرت ' + savings + '%');
-            }, 500);
+                if (compressedSize >= originalSize) {
+                    showToast('ℹ️ الملف كان مضغوطاً بالفعل، جرّب مستوى ضغط أقل');
+                } else {
+                    showToast('✅ تم ضغط الملف بنجاح! وفّرت ' + savings + '%');
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('compressing').classList.remove('show');
+                document.getElementById('options').style.display = 'block';
+                document.getElementById('compress-btn').disabled = false;
+                showToast('❌ حدث خطأ أثناء ضغط الملف: ' + error.message);
+            }
         }
 
         function resetTool() {
             originalFile = null;
-            originalImage = null;
             document.getElementById('upload-area').style.display = 'block';
+            document.getElementById('file-chip').style.display = 'none';
             document.getElementById('options').style.display = 'none';
+            document.getElementById('compressing').classList.remove('show');
             document.getElementById('preview-section').classList.remove('show');
+            document.getElementById('progress-fill').style.width = '0%';
             document.getElementById('file-input').value = '';
-            document.getElementById('quality').value = 80;
-            document.getElementById('quality-value').textContent = '80%';
+            document.getElementById('quality').value = 70;
+            document.getElementById('quality-value').textContent = '70%';
         }
 
         function showToast(message) {
