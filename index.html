@@ -5,20 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مولد QR Code مجاني | Free QR Code Generator</title>
     <meta name="description" content="أفضل مولد QR Code مجاني عربي. أنشئ QR Code لروابط، أرقام، بريد، واي فاي، وبطاقات تواصل بأشكال وألوان مخصصة.">
-    <meta name="keywords" content="مولد QR Code, QR Code Generator, باركود, رقم هاتف, بريد إلكتروني, واي فاي, بطاقة تواصل, vcard, مجاني">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #4F46E5;
             --primary-dark: #4338CA;
             --secondary: #10B981;
-            --danger: #EF4444;
             --bg: #F8FAFC;
             --card: #FFFFFF;
             --text: #1E293B;
             --text-light: #64748B;
             --border: #E2E8F0;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,53 +34,24 @@
         .tool-section { padding: 2rem 0 4rem; }
         .tool-card { background: var(--card); border-radius: 24px; box-shadow: var(--shadow-lg); padding: 3rem; max-width: 900px; margin: 0 auto; }
 
-        /* Type Selector */
         .type-selector { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
-        .type-btn {
-            padding: 0.75rem 1.25rem;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: white;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        .type-btn { padding: 0.75rem 1.25rem; border: 2px solid var(--border); border-radius: 12px; background: white; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem; }
         .type-btn:hover { border-color: var(--primary); color: var(--primary); }
         .type-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Form Sections */
         .form-section { display: none; }
         .form-section.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .input-group { margin-bottom: 1.5rem; }
         .input-group label { display: block; font-weight: 700; margin-bottom: 0.5rem; font-size: 1rem; }
-        .input-group input, .input-group textarea, .input-group select {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-family: 'Tajawal';
-            font-size: 1rem;
-            background: var(--bg);
-            transition: all 0.3s;
-        }
-        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-        }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 0.875rem 1rem; border: 2px solid var(--border); border-radius: 12px; font-family: 'Tajawal'; font-size: 1rem; background: var(--bg); transition: all 0.3s; }
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
         .input-group textarea { resize: vertical; min-height: 100px; }
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .char-count { text-align: left; color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem; }
         .hint { color: var(--text-light); font-size: 0.85rem; margin-top: 0.25rem; }
 
-        /* Options */
         .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
         .option-group { background: var(--bg); padding: 1.25rem; border-radius: 16px; }
         .option-group label { display: block; font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem; }
@@ -99,7 +67,7 @@
         .result-section { margin-top: 3rem; text-align: center; display: none; }
         .result-section.show { display: block; animation: fadeIn 0.5s ease; }
         .qr-container { background: var(--bg); border-radius: 24px; padding: 3rem; margin-bottom: 2rem; display: inline-block; }
-        .qr-container canvas { display: block; margin: 0 auto; border-radius: 12px; }
+        .qr-container img { display: block; margin: 0 auto; border-radius: 12px; }
         .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
         .btn-download { padding: 0.875rem 2rem; border-radius: 12px; font-family: 'Tajawal'; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; transition: all 0.3s; }
         .btn-primary { background: var(--primary); color: white; }
@@ -110,17 +78,9 @@
         .data-preview { background: var(--bg); border-radius: 12px; padding: 1rem; margin: 1rem 0; text-align: right; font-size: 0.9rem; color: var(--text-light); word-break: break-all; }
         .data-preview strong { color: var(--text); }
 
-        /* Loading Spinner */
         .loading-overlay { display: none; text-align: center; padding: 3rem; }
         .loading-overlay.show { display: block; }
-        .spinner {
-            width: 50px; height: 50px;
-            border: 4px solid rgba(79, 70, 229, 0.2);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 1rem;
-        }
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(79, 70, 229, 0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         footer { background: var(--text); color: white; padding: 3rem 0 2rem; text-align: center; margin-top: 4rem; }
@@ -161,7 +121,6 @@
     <section class="tool-section">
         <div class="container">
             <div class="tool-card">
-                <!-- Type Selector -->
                 <div class="type-selector">
                     <button class="type-btn active" data-type="url" onclick="switchType('url')">🌐 رابط</button>
                     <button class="type-btn" data-type="text" onclick="switchType('text')">📝 نص</button>
@@ -171,7 +130,6 @@
                     <button class="type-btn" data-type="vcard" onclick="switchType('vcard')">👤 بطاقة تواصل</button>
                 </div>
 
-                <!-- URL Form -->
                 <div class="form-section active" id="form-url">
                     <div class="input-group">
                         <label for="url-input">🌐 أدخل الرابط</label>
@@ -180,7 +138,6 @@
                     </div>
                 </div>
 
-                <!-- Text Form -->
                 <div class="form-section" id="form-text">
                     <div class="input-group">
                         <label for="text-input">📝 أدخل النص</label>
@@ -189,7 +146,6 @@
                     </div>
                 </div>
 
-                <!-- Phone Form -->
                 <div class="form-section" id="form-phone">
                     <div class="input-group">
                         <label for="phone-input">📱 رقم الهاتف</label>
@@ -198,7 +154,6 @@
                     </div>
                 </div>
 
-                <!-- Email Form -->
                 <div class="form-section" id="form-email">
                     <div class="input-group">
                         <label for="email-address">📧 البريد الإلكتروني</label>
@@ -214,7 +169,6 @@
                     </div>
                 </div>
 
-                <!-- WiFi Form -->
                 <div class="form-section" id="form-wifi">
                     <div class="input-group">
                         <label for="wifi-ssid">📶 اسم الشبكة (SSID)</label>
@@ -235,7 +189,6 @@
                     <div class="hint">عند مسح QR Code، سيتم الاتصال بالشبكة تلقائياً</div>
                 </div>
 
-                <!-- vCard Form -->
                 <div class="form-section" id="form-vcard">
                     <div class="input-row">
                         <div class="input-group">
@@ -273,13 +226,11 @@
                     </div>
                 </div>
 
-                <!-- Data Preview -->
                 <div class="data-preview" id="data-preview" style="display:none;">
                     <strong>📋 البيانات المشفرة:</strong><br>
                     <span id="preview-text"></span>
                 </div>
 
-                <!-- Options -->
                 <div class="options-grid">
                     <div class="option-group">
                         <label>🎨 لون QR Code</label>
@@ -321,7 +272,6 @@
                     ⚡ إنشاء QR Code
                 </button>
 
-                <!-- Loading -->
                 <div class="loading-overlay" id="loading-overlay">
                     <div class="spinner"></div>
                     <p style="color: var(--text-light); font-weight: 600;">جاري إنشاء QR Code...</p>
@@ -330,7 +280,7 @@
                 <div class="result-section" id="result">
                     <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">🎉 QR Code جاهز!</h3>
                     <div class="qr-container" id="qr-container">
-                        <canvas id="qr-canvas"></canvas>
+                        <img id="qr-image" src="" alt="QR Code" style="display:none;">
                     </div>
                     <div class="download-buttons">
                         <button class="btn-download btn-primary" onclick="downloadQR()">📥 تحميل PNG</button>
@@ -355,13 +305,13 @@
 
     <div class="toast" id="toast"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://unpkg.com/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
     <script>
         let currentType = 'url';
         let logoImage = null;
         let currentQRData = null;
+        let qrCode = null;
 
-        // Type switching
         function switchType(type) {
             currentType = type;
             document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
@@ -373,17 +323,14 @@
             document.getElementById('loading-overlay').classList.remove('show');
         }
 
-        // Character count
         document.getElementById('text-input').addEventListener('input', function() {
             document.getElementById('text-char-count').textContent = this.value.length;
         });
 
-        // Size slider
         document.getElementById('qr-size').addEventListener('input', function() {
             document.getElementById('size-value').textContent = this.value + ' px';
         });
 
-        // Logo upload
         document.getElementById('logo-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -397,24 +344,20 @@
             }
         });
 
-        // Build QR data based on type
         function buildQRData() {
             switch(currentType) {
                 case 'url':
                     const url = document.getElementById('url-input').value.trim();
                     if (!url) return null;
                     return { text: url, label: url };
-
                 case 'text':
                     const text = document.getElementById('text-input').value.trim();
                     if (!text) return null;
                     return { text: text, label: text };
-
                 case 'phone':
                     const phone = document.getElementById('phone-input').value.trim();
                     if (!phone) return null;
                     return { text: 'tel:' + phone, label: phone };
-
                 case 'email':
                     const email = document.getElementById('email-address').value.trim();
                     if (!email) return null;
@@ -427,7 +370,6 @@
                         if (body) mailto += (subject ? '&' : '') + 'body=' + encodeURIComponent(body);
                     }
                     return { text: mailto, label: email };
-
                 case 'wifi':
                     const ssid = document.getElementById('wifi-ssid').value.trim();
                     const password = document.getElementById('wifi-password').value;
@@ -437,7 +379,6 @@
                     if (enc !== 'nopass' && password) wifiText += ';P:' + password;
                     wifiText += ';;';
                     return { text: wifiText, label: 'WiFi: ' + ssid };
-
                 case 'vcard':
                     const fn = document.getElementById('vcard-firstname').value.trim();
                     const ln = document.getElementById('vcard-lastname').value.trim();
@@ -448,7 +389,6 @@
                     const website = document.getElementById('vcard-website').value.trim();
                     const address = document.getElementById('vcard-address').value.trim();
                     if (!fn && !ln) return null;
-
                     let vcard = 'BEGIN:VCARD\nVERSION:3.0\n';
                     vcard += 'N:' + (ln || '') + ';' + (fn || '') + ';;;;\n';
                     vcard += 'FN:' + (fn || '') + ' ' + (ln || '') + '\n';
@@ -460,13 +400,19 @@
                     if (address) vcard += 'ADR;TYPE=HOME:;;' + address + '\n';
                     vcard += 'END:VCARD';
                     return { text: vcard, label: (fn || '') + ' ' + (ln || '') };
-
                 default:
                     return null;
             }
         }
 
-        function generateQR() {
+        function getDotStyle() {
+            const style = document.getElementById('dot-style').value;
+            if (style === 'rounded') return 'rounded';
+            if (style === 'dots') return 'dots';
+            return 'square';
+        }
+
+        async function generateQR() {
             const data = buildQRData();
             if (!data) {
                 showToast('❌ الرجاء إدخال البيانات أولاً');
@@ -476,8 +422,8 @@
             const btn = document.getElementById('generate-btn');
             const loading = document.getElementById('loading-overlay');
             const result = document.getElementById('result');
+            const qrImg = document.getElementById('qr-image');
 
-            // Hide previous result, show loading
             result.classList.remove('show');
             loading.classList.add('show');
             btn.disabled = true;
@@ -487,128 +433,81 @@
             const bgColor = document.getElementById('bg-color').value;
             const size = parseInt(document.getElementById('qr-size').value);
             const errorLevel = document.getElementById('error-level').value;
-            const dotStyle = document.getElementById('dot-style').value;
+            const dotStyle = getDotStyle();
 
-            // Show preview
             document.getElementById('preview-text').textContent = data.text;
             document.getElementById('data-preview').style.display = 'block';
 
-            // Generate QR using toDataURL approach - more reliable
-            QRCode.toDataURL(data.text, {
-                width: size,
-                margin: 2,
-                color: { dark: color, light: bgColor },
-                errorCorrectionLevel: errorLevel
-            }, function(error, dataUrl) {
-                if (error) {
-                    loading.classList.remove('show');
-                    btn.disabled = false;
-                    btn.textContent = '⚡ إنشاء QR Code';
-                    showToast('❌ حدث خطأ: ' + error.message);
-                    return;
+            try {
+                const options = {
+                    width: size,
+                    height: size,
+                    data: data.text,
+                    margin: 10,
+                    qrOptions: {
+                        typeNumber: 0,
+                        mode: 'Byte',
+                        errorCorrectionLevel: errorLevel
+                    },
+                    imageOptions: {
+                        hideBackgroundDots: true,
+                        imageSize: 0.4,
+                        margin: 0
+                    },
+                    dotsOptions: {
+                        type: dotStyle,
+                        color: color
+                    },
+                    backgroundOptions: {
+                        color: bgColor
+                    }
+                };
+
+                if (logoImage) {
+                    options.image = logoImage.src;
                 }
 
-                // Load the generated QR into an image
-                const qrImg = new Image();
-                qrImg.onload = function() {
-                    // Draw on our display canvas
-                    const displayCanvas = document.getElementById('qr-canvas');
-                    displayCanvas.width = size;
-                    displayCanvas.height = size;
-                    const ctx = displayCanvas.getContext('2d');
-                    ctx.fillStyle = bgColor;
-                    ctx.fillRect(0, 0, size, size);
-                    ctx.drawImage(qrImg, 0, 0, size, size);
+                qrCode = new QRCodeStyling(options);
 
-                    // Apply dot style
-                    if (dotStyle !== 'square') {
-                        applyDotStyle(displayCanvas, dotStyle, color, bgColor);
-                    }
+                const blob = await qrCode.getRawData('png');
+                const url = URL.createObjectURL(blob);
+                qrImg.src = url;
+                qrImg.style.display = 'block';
+                currentQRData = url;
 
-                    // Add logo if present
-                    if (logoImage) {
-                        addLogoToQR(displayCanvas, logoImage);
-                    }
-
-                    currentQRData = displayCanvas.toDataURL('image/png');
-
-                    // Hide loading, show result
-                    loading.classList.remove('show');
-                    result.classList.add('show');
-                    btn.disabled = false;
-                    btn.textContent = '⚡ إنشاء QR Code';
-                    showToast('✅ تم إنشاء QR Code بنجاح!');
-                };
-                qrImg.onerror = function() {
-                    loading.classList.remove('show');
-                    btn.disabled = false;
-                    btn.textContent = '⚡ إنشاء QR Code';
-                    showToast('❌ فشل تحميل QR Code');
-                };
-                qrImg.src = dataUrl;
-            });
-        }
-
-        function applyDotStyle(canvas, style, color, bgColor) {
-            const ctx = canvas.getContext('2d');
-            const size = canvas.width;
-            const imageData = ctx.getImageData(0, 0, size, size);
-            const data = imageData.data;
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0, 0, size, size);
-            const moduleSize = size / Math.sqrt(data.length / 4);
-            for (let y = 0; y < size; y += moduleSize) {
-                for (let x = 0; x < size; x += moduleSize) {
-                    const idx = (Math.floor(y) * size + Math.floor(x)) * 4;
-                    if (data[idx] < 128) {
-                        ctx.fillStyle = color;
-                        if (style === 'rounded') {
-                            ctx.beginPath();
-                            ctx.roundRect(x + 1, y + 1, moduleSize - 2, moduleSize - 2, moduleSize / 3);
-                            ctx.fill();
-                        } else if (style === 'dots') {
-                            ctx.beginPath();
-                            ctx.arc(x + moduleSize/2, y + moduleSize/2, moduleSize/2 - 1, 0, Math.PI * 2);
-                            ctx.fill();
-                        } else {
-                            ctx.fillRect(x, y, moduleSize, moduleSize);
-                        }
-                    }
-                }
+                loading.classList.remove('show');
+                result.classList.add('show');
+                btn.disabled = false;
+                btn.textContent = '⚡ إنشاء QR Code';
+                showToast('✅ تم إنشاء QR Code بنجاح!');
+            } catch (error) {
+                console.error(error);
+                loading.classList.remove('show');
+                btn.disabled = false;
+                btn.textContent = '⚡ إنشاء QR Code';
+                showToast('❌ حدث خطأ: ' + error.message);
             }
         }
 
-        function addLogoToQR(canvas, logo) {
-            const ctx = canvas.getContext('2d');
-            const size = canvas.width;
-            const logoSize = Math.floor(size * 0.25);
-            const x = (size - logoSize) / 2;
-            const y = (size - logoSize) / 2;
-            ctx.fillStyle = 'white';
-            ctx.beginPath();
-            ctx.roundRect(x - 5, y - 5, logoSize + 10, logoSize + 10, 10);
-            ctx.fill();
-            ctx.drawImage(logo, x, y, logoSize, logoSize);
+        async function downloadQR(format = 'png') {
+            if (!qrCode) { showToast('❌ أنشئ QR Code أولاً'); return; }
+            try {
+                await qrCode.download({ name: 'qr-code', extension: format });
+                showToast('📥 تم التحميل!');
+            } catch (e) {
+                showToast('❌ فشل التحميل');
+            }
         }
 
-        function downloadQR(format = 'png') {
-            const canvas = document.getElementById('qr-canvas');
-            if (!canvas.width || canvas.width === 0) { showToast('❌ أنشئ QR Code أولاً'); return; }
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/' + format);
-            link.download = 'qr-code.' + format;
-            link.click();
-            showToast('📥 تم التحميل!');
-        }
-
-        function copyQR() {
-            const canvas = document.getElementById('qr-canvas');
-            if (!canvas.width || canvas.width === 0) { showToast('❌ أنشئ QR Code أولاً'); return; }
-            canvas.toBlob(function(blob) {
-                navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
-                    .then(() => showToast('📋 تم النسخ!'))
-                    .catch(() => showToast('❌ فشل النسخ'));
-            });
+        async function copyQR() {
+            if (!qrCode) { showToast('❌ أنشئ QR Code أولاً'); return; }
+            try {
+                const blob = await qrCode.getRawData('png');
+                await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                showToast('📋 تم النسخ!');
+            } catch (e) {
+                showToast('❌ فشل النسخ');
+            }
         }
 
         function showToast(message) {
