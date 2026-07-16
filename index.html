@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مولد QR Code مجاني | Free QR Code Generator</title>
-    <meta name="description" content="أفضل مولد QR Code مجاني عربي. أنشئ QR Code لروابطك، نصوصك، وبياناتك في ثوانٍ.">
+    <meta name="description" content="أفضل مولد QR Code مجاني عربي. أنشئ QR Code بأشكال وألوان مخصصة لروابطك في ثوانٍ.">
+    <meta name="keywords" content="مولد QR Code, QR Code Generator, باركود, مجاني, free">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -32,19 +33,28 @@
         .hero p { font-size: 1.25rem; color: var(--text-light); max-width: 600px; margin: 0 auto 2rem; }
         .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: #ECFDF5; color: var(--secondary); padding: 0.5rem 1rem; border-radius: 50px; font-weight: 600; font-size: 0.875rem; }
         .tool-section { padding: 2rem 0 4rem; }
-        .tool-card { background: var(--card); border-radius: 24px; box-shadow: var(--shadow-lg); padding: 3rem; max-width: 800px; margin: 0 auto; }
+        .tool-card { background: var(--card); border-radius: 24px; box-shadow: var(--shadow-lg); padding: 3rem; max-width: 900px; margin: 0 auto; }
         .input-group { margin-bottom: 2rem; }
         .input-group label { display: block; font-weight: 700; margin-bottom: 0.75rem; font-size: 1.1rem; }
         textarea { width: 100%; padding: 1rem 1.25rem; border: 2px solid var(--border); border-radius: 16px; font-family: 'Tajawal'; font-size: 1rem; background: var(--bg); resize: vertical; min-height: 120px; }
         textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
         .char-count { text-align: left; color: var(--text-light); font-size: 0.875rem; margin-top: 0.5rem; }
-        .btn-generate { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 16px; font-family: 'Tajawal'; font-size: 1.25rem; font-weight: 700; cursor: pointer; margin-top: 1rem; }
+
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .option-group { background: var(--bg); padding: 1.25rem; border-radius: 16px; }
+        .option-group label { display: block; font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .option-group input[type="color"] { width: 100%; height: 45px; border: none; border-radius: 10px; cursor: pointer; }
+        .option-group input[type="range"] { width: 100%; }
+        .option-group select { width: 100%; padding: 0.75rem; border: 2px solid var(--border); border-radius: 10px; font-family: 'Tajawal'; font-size: 1rem; background: white; }
+        .range-value { text-align: center; color: var(--primary); font-weight: 700; margin-top: 0.5rem; }
+
+        .btn-generate { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 16px; font-family: 'Tajawal'; font-size: 1.25rem; font-weight: 700; cursor: pointer; }
         .btn-generate:hover { transform: translateY(-2px); }
         .result-section { margin-top: 3rem; text-align: center; display: none; }
         .result-section.show { display: block; }
         .qr-container { background: var(--bg); border-radius: 24px; padding: 3rem; margin-bottom: 2rem; display: inline-block; }
-        .qr-container img { display: block; margin: 0 auto; border-radius: 12px; }
-        .download-buttons { display: flex; gap: 1rem; justify-content: center; }
+        .qr-container canvas { display: block; margin: 0 auto; border-radius: 12px; }
+        .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
         .btn-download { padding: 0.875rem 2rem; border-radius: 12px; font-family: 'Tajawal'; font-weight: 700; font-size: 1rem; cursor: pointer; border: none; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-secondary { background: var(--bg); color: var(--text); border: 2px solid var(--border); }
@@ -54,7 +64,7 @@
         .footer-links a:hover { color: white; }
         .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: white; padding: 1rem 2rem; border-radius: 12px; font-weight: 600; z-index: 1000; opacity: 0; transition: all 0.3s; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } .options-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -77,9 +87,9 @@
 
     <section class="hero">
         <div class="container">
-            <div class="badge">✨ مجاني 100%</div>
+            <div class="badge">✨ مجاني 100% - بدون تسجيل</div>
             <h1>مولد QR Code احترافي</h1>
-            <p>أنشئ QR Code مخصص لروابطك في ثوانٍ. سريع، مجاني، وبدون علامة مائية.</p>
+            <p>أنشئ QR Code مخصص بألوان وأشكال مختلفة. سريع، مجاني، وبدون علامة مائية.</p>
         </div>
     </section>
 
@@ -88,8 +98,45 @@
             <div class="tool-card">
                 <div class="input-group">
                     <label for="qr-text">📝 أدخل النص أو الرابط</label>
-                    <textarea id="qr-text" placeholder="مثال: https://google.com" maxlength="500"></textarea>
-                    <div class="char-count"><span id="char-count">0</span> / 500 حرف</div>
+                    <textarea id="qr-text" placeholder="مثال: https://google.com" maxlength="3000"></textarea>
+                    <div class="char-count"><span id="char-count">0</span> / 3000 حرف</div>
+                </div>
+
+                <div class="options-grid">
+                    <div class="option-group">
+                        <label>🎨 لون QR Code</label>
+                        <input type="color" id="qr-color" value="#000000">
+                    </div>
+                    <div class="option-group">
+                        <label>🖼️ لون الخلفية</label>
+                        <input type="color" id="bg-color" value="#FFFFFF">
+                    </div>
+                    <div class="option-group">
+                        <label>📏 الحجم (px)</label>
+                        <input type="range" id="qr-size" min="100" max="800" value="300">
+                        <div class="range-value" id="size-value">300 px</div>
+                    </div>
+                    <div class="option-group">
+                        <label>⚙️ مستوى التصحيح</label>
+                        <select id="error-level">
+                            <option value="L">منخفض (L) - 7%</option>
+                            <option value="M" selected>متوسط (M) - 15%</option>
+                            <option value="Q">عالي (Q) - 25%</option>
+                            <option value="H">أعلى (H) - 30%</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label>🔲 شكل النقاط</label>
+                        <select id="dot-style">
+                            <option value="square" selected>مربع</option>
+                            <option value="rounded">مدور</option>
+                            <option value="dots">نقاط</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label>🖼️ إضافة شعار (اختياري)</label>
+                        <input type="file" id="logo-input" accept="image/*" style="width:100%; padding:0.5rem 0;">
+                    </div>
                 </div>
 
                 <button class="btn-generate" id="generate-btn" onclick="generateQR()">
@@ -99,10 +146,11 @@
                 <div class="result-section" id="result">
                     <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">🎉 QR Code جاهز!</h3>
                     <div class="qr-container">
-                        <img id="qr-image" src="" alt="QR Code" style="display: none;">
+                        <canvas id="qr-canvas"></canvas>
                     </div>
                     <div class="download-buttons">
-                        <button class="btn-download btn-primary" onclick="downloadQR()">📥 تحميل</button>
+                        <button class="btn-download btn-primary" onclick="downloadQR()">📥 تحميل PNG</button>
+                        <button class="btn-download btn-secondary" onclick="downloadQR('jpeg')">📥 تحميل JPG</button>
                         <button class="btn-download btn-secondary" onclick="copyQR()">📋 نسخ</button>
                     </div>
                 </div>
@@ -123,17 +171,41 @@
 
     <div class="toast" id="toast"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script>
         const textarea = document.getElementById('qr-text');
         const charCount = document.getElementById('char-count');
+        const sizeSlider = document.getElementById('qr-size');
+        const sizeValue = document.getElementById('size-value');
 
         textarea.addEventListener('input', function() {
             charCount.textContent = this.value.length;
         });
 
+        sizeSlider.addEventListener('input', function() {
+            sizeValue.textContent = this.value + ' px';
+        });
+
+        let currentQRData = null;
+        let logoImage = null;
+
+        document.getElementById('logo-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    logoImage = new Image();
+                    logoImage.onload = function() {
+                        showToast('✅ تم تحميل الشعار!');
+                    };
+                    logoImage.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         function generateQR() {
             const text = textarea.value.trim();
-
             if (!text) {
                 showToast('❌ الرجاء إدخال نص أولاً');
                 return;
@@ -142,54 +214,131 @@
             const btn = document.getElementById('generate-btn');
             btn.textContent = '⏳ جاري الإنشاء...';
 
-            // Use goqr.me API - reliable and tested by millions
-            const apiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(text);
+            const color = document.getElementById('qr-color').value;
+            const bgColor = document.getElementById('bg-color').value;
+            const size = parseInt(document.getElementById('qr-size').value);
+            const errorLevel = document.getElementById('error-level').value;
+            const dotStyle = document.getElementById('dot-style').value;
 
-            const img = document.getElementById('qr-image');
+            const canvas = document.getElementById('qr-canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
 
-            img.onload = function() {
+            // Fill background
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, size, size);
+
+            QRCode.toCanvas(canvas, text, {
+                width: size,
+                margin: 2,
+                color: {
+                    dark: color,
+                    light: bgColor
+                },
+                errorCorrectionLevel: errorLevel
+            }, function(error) {
+                if (error) {
+                    showToast('❌ حدث خطأ: ' + error.message);
+                    btn.textContent = '⚡ إنشاء QR Code';
+                    return;
+                }
+
+                // Apply dot style
+                if (dotStyle !== 'square') {
+                    applyDotStyle(canvas, dotStyle, color, bgColor);
+                }
+
+                // Add logo if present
+                if (logoImage) {
+                    addLogoToQR(canvas, logoImage);
+                }
+
+                currentQRData = canvas.toDataURL('image/png');
                 document.getElementById('result').classList.add('show');
                 btn.textContent = '⚡ إنشاء QR Code';
                 showToast('✅ تم إنشاء QR Code بنجاح!');
-            };
-
-            img.onerror = function() {
-                showToast('❌ حدث خطأ، جرب مرة أخرى');
-                btn.textContent = '⚡ إنشاء QR Code';
-            };
-
-            img.src = apiUrl;
-            img.style.display = 'block';
+            });
         }
 
-        function downloadQR() {
-            const img = document.getElementById('qr-image');
-            if (!img.src || img.style.display === 'none') {
+        function applyDotStyle(canvas, style, color, bgColor) {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            const imageData = ctx.getImageData(0, 0, size, size);
+            const data = imageData.data;
+
+            // Clear and redraw with style
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, size, size);
+
+            const moduleSize = size / Math.sqrt(data.length / 4);
+            const cellSize = moduleSize;
+
+            for (let y = 0; y < size; y += cellSize) {
+                for (let x = 0; x < size; x += cellSize) {
+                    const idx = (Math.floor(y) * size + Math.floor(x)) * 4;
+                    const isDark = data[idx] < 128;
+
+                    if (isDark) {
+                        ctx.fillStyle = color;
+                        if (style === 'rounded') {
+                            ctx.beginPath();
+                            ctx.roundRect(x + 1, y + 1, cellSize - 2, cellSize - 2, cellSize / 3);
+                            ctx.fill();
+                        } else if (style === 'dots') {
+                            ctx.beginPath();
+                            ctx.arc(x + cellSize/2, y + cellSize/2, cellSize/2 - 1, 0, Math.PI * 2);
+                            ctx.fill();
+                        } else {
+                            ctx.fillRect(x, y, cellSize, cellSize);
+                        }
+                    }
+                }
+            }
+        }
+
+        function addLogoToQR(canvas, logo) {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            const logoSize = Math.floor(size * 0.25);
+            const x = (size - logoSize) / 2;
+            const y = (size - logoSize) / 2;
+
+            // White background for logo area
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.roundRect(x - 5, y - 5, logoSize + 10, logoSize + 10, 10);
+            ctx.fill();
+
+            ctx.drawImage(logo, x, y, logoSize, logoSize);
+        }
+
+        function downloadQR(format = 'png') {
+            const canvas = document.getElementById('qr-canvas');
+            if (!canvas.width) {
                 showToast('❌ أنشئ QR Code أولاً');
                 return;
             }
 
             const link = document.createElement('a');
-            link.href = img.src;
-            link.download = 'qr-code.png';
+            link.href = canvas.toDataURL('image/' + format);
+            link.download = 'qr-code.' + format;
             link.click();
             showToast('📥 تم التحميل!');
         }
 
         function copyQR() {
-            const img = document.getElementById('qr-image');
-            if (!img.src || img.style.display === 'none') {
+            const canvas = document.getElementById('qr-canvas');
+            if (!canvas.width) {
                 showToast('❌ أنشئ QR Code أولاً');
                 return;
             }
 
-            fetch(img.src)
-                .then(r => r.blob())
-                .then(blob => {
-                    navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
-                        .then(() => showToast('📋 تم النسخ!'))
-                        .catch(() => showToast('❌ فشل النسخ'));
-                });
+            canvas.toBlob(function(blob) {
+                navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
+                    .then(() => showToast('📋 تم النسخ!'))
+                    .catch(() => showToast('❌ فشل النسخ'));
+            });
         }
 
         function showToast(message) {
