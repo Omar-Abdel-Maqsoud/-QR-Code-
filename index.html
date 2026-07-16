@@ -94,8 +94,10 @@
 
         .btn-generate { width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 16px; font-family: 'Tajawal'; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: all 0.3s; }
         .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
+        .btn-generate:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
         .result-section { margin-top: 3rem; text-align: center; display: none; }
-        .result-section.show { display: block; }
+        .result-section.show { display: block; animation: fadeIn 0.5s ease; }
         .qr-container { background: var(--bg); border-radius: 24px; padding: 3rem; margin-bottom: 2rem; display: inline-block; }
         .qr-container canvas { display: block; margin: 0 auto; border-radius: 12px; }
         .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
@@ -107,6 +109,19 @@
 
         .data-preview { background: var(--bg); border-radius: 12px; padding: 1rem; margin: 1rem 0; text-align: right; font-size: 0.9rem; color: var(--text-light); word-break: break-all; }
         .data-preview strong { color: var(--text); }
+
+        /* Loading Spinner */
+        .loading-overlay { display: none; text-align: center; padding: 3rem; }
+        .loading-overlay.show { display: block; }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 4px solid rgba(79, 70, 229, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         footer { background: var(--text); color: white; padding: 3rem 0 2rem; text-align: center; margin-top: 4rem; }
         .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
@@ -306,9 +321,15 @@
                     ⚡ إنشاء QR Code
                 </button>
 
+                <!-- Loading -->
+                <div class="loading-overlay" id="loading-overlay">
+                    <div class="spinner"></div>
+                    <p style="color: var(--text-light); font-weight: 600;">جاري إنشاء QR Code...</p>
+                </div>
+
                 <div class="result-section" id="result">
                     <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">🎉 QR Code جاهز!</h3>
-                    <div class="qr-container">
+                    <div class="qr-container" id="qr-container">
                         <canvas id="qr-canvas"></canvas>
                     </div>
                     <div class="download-buttons">
@@ -349,6 +370,7 @@
             document.getElementById(`form-${type}`).classList.add('active');
             document.getElementById('data-preview').style.display = 'none';
             document.getElementById('result').classList.remove('show');
+            document.getElementById('loading-overlay').classList.remove('show');
         }
 
         // Character count
@@ -411,7 +433,6 @@
                     const password = document.getElementById('wifi-password').value;
                     const enc = document.getElementById('wifi-type').value;
                     if (!ssid) return null;
-                    // WiFi QR format: WIFI:T:WPA;S:SSID;P:PASSWORD;;
                     let wifiText = 'WIFI:T:' + enc + ';S:' + ssid;
                     if (enc !== 'nopass' && password) wifiText += ';P:' + password;
                     wifiText += ';;';
@@ -452,11 +473,15 @@
                 return;
             }
 
-            // Show preview
-            document.getElementById('preview-text').textContent = data.text;
-            document.getElementById('data-preview').style.display = 'block';
-
             const btn = document.getElementById('generate-btn');
+            const loading = document.getElementById('loading-overlay');
+            const result = document.getElementById('result');
+            const container = document.getElementById('qr-container');
+
+            // Hide previous result, show loading
+            result.classList.remove('show');
+            loading.classList.add('show');
+            btn.disabled = true;
             btn.textContent = '⏳ جاري الإنشاء...';
 
             const color = document.getElementById('qr-color').value;
@@ -465,28 +490,52 @@
             const errorLevel = document.getElementById('error-level').value;
             const dotStyle = document.getElementById('dot-style').value;
 
-            const canvas = document.getElementById('qr-canvas');
-            canvas.width = size;
-            canvas.height = size;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0, 0, size, size);
+            // Show preview
+            document.getElementById('preview-text').textContent = data.text;
+            document.getElementById('data-preview').style.display = 'block';
 
-            QRCode.toCanvas(canvas, data.text, {
+            // Use a temporary canvas for generation
+            const tempCanvas = document.createElement('canvas');
+
+            QRCode.toCanvas(tempCanvas, data.text, {
                 width: size,
                 margin: 2,
                 color: { dark: color, light: bgColor },
                 errorCorrectionLevel: errorLevel
             }, function(error) {
                 if (error) {
-                    showToast('❌ حدث خطأ: ' + error.message);
+                    loading.classList.remove('show');
+                    btn.disabled = false;
                     btn.textContent = '⚡ إنشاء QR Code';
+                    showToast('❌ حدث خطأ: ' + error.message);
                     return;
                 }
-                if (dotStyle !== 'square') applyDotStyle(canvas, dotStyle, color, bgColor);
-                if (logoImage) addLogoToQR(canvas, logoImage);
-                currentQRData = canvas.toDataURL('image/png');
-                document.getElementById('result').classList.add('show');
+
+                // Get the generated canvas and copy to our display canvas
+                const displayCanvas = document.getElementById('qr-canvas');
+                displayCanvas.width = size;
+                displayCanvas.height = size;
+                const ctx = displayCanvas.getContext('2d');
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, size, size);
+                ctx.drawImage(tempCanvas, 0, 0, size, size);
+
+                // Apply dot style
+                if (dotStyle !== 'square') {
+                    applyDotStyle(displayCanvas, dotStyle, color, bgColor);
+                }
+
+                // Add logo if present
+                if (logoImage) {
+                    addLogoToQR(displayCanvas, logoImage);
+                }
+
+                currentQRData = displayCanvas.toDataURL('image/png');
+
+                // Hide loading, show result
+                loading.classList.remove('show');
+                result.classList.add('show');
+                btn.disabled = false;
                 btn.textContent = '⚡ إنشاء QR Code';
                 showToast('✅ تم إنشاء QR Code بنجاح!');
             });
@@ -536,7 +585,7 @@
 
         function downloadQR(format = 'png') {
             const canvas = document.getElementById('qr-canvas');
-            if (!canvas.width) { showToast('❌ أنشئ QR Code أولاً'); return; }
+            if (!canvas.width || canvas.width === 0) { showToast('❌ أنشئ QR Code أولاً'); return; }
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/' + format);
             link.download = 'qr-code.' + format;
@@ -546,7 +595,7 @@
 
         function copyQR() {
             const canvas = document.getElementById('qr-canvas');
-            if (!canvas.width) { showToast('❌ أنشئ QR Code أولاً'); return; }
+            if (!canvas.width || canvas.width === 0) { showToast('❌ أنشئ QR Code أولاً'); return; }
             canvas.toBlob(function(blob) {
                 navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
                     .then(() => showToast('📋 تم النسخ!'))
