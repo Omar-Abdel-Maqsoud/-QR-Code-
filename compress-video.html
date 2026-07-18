@@ -474,7 +474,11 @@
             try {
                 const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
                 const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
-                await ffmpeg.load({ coreURL, wasmURL });
+                const classWorkerURL = await toBlobURL(
+                    'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js',
+                    'text/javascript'
+                );
+                await ffmpeg.load({ coreURL, wasmURL, classWorkerURL });
             } catch (err) {
                 // Important: reset the module-level instance so a retry starts fresh
                 // instead of reusing a half-loaded ffmpeg object (that was the bug).
