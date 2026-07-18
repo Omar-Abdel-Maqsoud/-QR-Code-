@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ضاغط PDF المجاني | Free PDF Compressor</title>
-    <meta name="description" content="أفضل ضاغط PDF مجاني عربي. قلّل حجم ملفات PDF مباشرة في متصفحك بدون رفع أي ملف لأي خادم. سريع وآمن 100%.">
-    <meta name="keywords" content="ضاغط PDF, PDF compressor, تصغير حجم PDF, ضغط ملفات PDF, مجاني, free">
+    <title>ضاغط الفيديو المجاني | Free Video Compressor</title>
+    <meta name="description" content="ضاغط فيديو مجاني عربي. قلّل حجم ملفات الفيديو مباشرة في متصفحك بدون رفع أي ملف لأي خادم. سريع وآمن 100%.">
+    <meta name="keywords" content="ضاغط فيديو, video compressor, تصغير حجم فيديو, ضغط فيديو mp4, مجاني, free">
 
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
@@ -26,34 +26,23 @@
         body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* Header */
         header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
         .header-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1.5rem; color: var(--primary); text-decoration: none; }
         .logo-icon { width: 40px; height: 40px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; }
+        nav { display: flex; flex-wrap: wrap; }
         nav a { color: var(--text-light); text-decoration: none; margin-right: 1.5rem; font-weight: 500; transition: color 0.3s; }
         nav a:hover { color: var(--primary); }
 
-        /* Hero */
         .hero { text-align: center; padding: 4rem 0 2rem; }
         .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #818CF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p { font-size: 1.25rem; color: var(--text-light); max-width: 600px; margin: 0 auto 2rem; }
         .badge { display: inline-flex; align-items: center; gap: 0.5rem; background: #ECFDF5; color: var(--secondary); padding: 0.5rem 1rem; border-radius: 50px; font-weight: 600; font-size: 0.875rem; }
 
-        /* Tool */
         .tool-section { padding: 2rem 0 4rem; }
         .tool-card { background: var(--card); border-radius: 24px; box-shadow: var(--shadow-lg); padding: 3rem; max-width: 800px; margin: 0 auto; }
 
-        /* Upload Area */
-        .upload-area {
-            border: 3px dashed var(--border);
-            border-radius: 20px;
-            padding: 4rem 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: var(--bg);
-        }
+        .upload-area { border: 3px dashed var(--border); border-radius: 20px; padding: 4rem 2rem; text-align: center; cursor: pointer; transition: all 0.3s; background: var(--bg); }
         .upload-area:hover { border-color: var(--primary); background: rgba(79, 70, 229, 0.05); }
         .upload-area.dragover { border-color: var(--primary); background: rgba(79, 70, 229, 0.1); }
         .upload-icon { font-size: 4rem; margin-bottom: 1rem; }
@@ -69,26 +58,29 @@
         .file-chip button { background: none; border: none; color: var(--text-light); font-size: 1.25rem; cursor: pointer; }
         .file-chip button:hover { color: var(--danger); }
 
-        /* Compression Options */
+        video.preview-video { width: 100%; border-radius: 14px; margin-bottom: 1.5rem; max-height: 320px; background: #000; }
+
         .options { margin: 2rem 0; }
         .options h3 { font-weight: 700; margin-bottom: 1rem; }
         .quality-slider { width: 100%; margin: 1rem 0; }
         .quality-labels { display: flex; justify-content: space-between; color: var(--text-light); font-size: 0.875rem; }
+
+        .res-options { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .res-btn { flex: 1; min-width: 100px; padding: 0.85rem; border-radius: 12px; border: 2px solid var(--border); background: var(--bg); font-family: 'Tajawal', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--text); }
+        .res-btn.active { border-color: var(--primary); background: rgba(79,70,229,0.08); color: var(--primary); }
+
         .method-note { background: var(--bg); border-radius: 12px; padding: 1rem 1.25rem; margin-top: 1.25rem; font-size: 0.875rem; color: var(--text-light); line-height: 1.7; }
         .method-note strong { color: var(--text); }
 
-        /* Preview */
         .preview-section { display: none; margin-top: 2rem; }
         .preview-section.show { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Stats */
         .stats { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border-radius: 16px; padding: 1.5rem; text-align: center; margin: 2rem 0; }
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         .stat-item h3 { font-size: 2rem; font-weight: 800; }
         .stat-item p { font-size: 0.875rem; opacity: 0.9; }
 
-        /* Buttons */
         .btn { padding: 1rem 2rem; border-radius: 12px; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s; border: none; display: inline-flex; align-items: center; gap: 0.5rem; }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
         .btn-primary:hover { transform: translateY(-2px); }
@@ -96,35 +88,29 @@
         .btn-secondary { background: var(--bg); color: var(--text); border: 2px solid var(--border); }
         .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* Ad Placeholder */
         .ad-placeholder { background: var(--bg); border: 2px dashed var(--border); border-radius: 16px; padding: 2rem; text-align: center; color: var(--text-light); margin: 2rem 0; }
 
-        /* Footer */
         footer { background: var(--text); color: white; padding: 3rem 0 2rem; text-align: center; margin-top: 4rem; }
         footer a { color: #818CF8; text-decoration: none; }
         .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
         .footer-links a { color: #94A3B8; transition: color 0.3s; }
         .footer-links a:hover { color: white; }
 
-        /* Toast */
-        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: white; padding: 1rem 2rem; border-radius: 12px; font-weight: 600; z-index: 1000; opacity: 0; transition: all 0.3s; }
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text); color: white; padding: 1rem 2rem; border-radius: 12px; font-weight: 600; z-index: 1000; opacity: 0; transition: all 0.3s; max-width: 90%; text-align: center; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        /* Responsive */
         @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .tool-card { padding: 1.5rem; } .stats-grid { grid-template-columns: 1fr; } }
 
-        /* Loading */
-        .spinner { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
         .spinner-dark { width: 50px; height: 50px; border: 4px solid rgba(79, 70, 229, 0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .compressing { display: none; text-align: center; padding: 2rem; }
         .compressing.show { display: block; }
         .progress-bar { width: 100%; max-width: 320px; height: 8px; background: var(--border); border-radius: 50px; margin: 1rem auto 0; overflow: hidden; }
         .progress-bar-fill { height: 100%; width: 0%; background: var(--primary); transition: width 0.2s; }
+        .progress-log { font-size: 0.75rem; color: var(--text-light); margin-top: 0.75rem; font-family: monospace; }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -136,44 +122,37 @@
                     <a href="index.html">🏠 الرئيسية</a>
                     <a href="index.html#tool">📱 مولد QR</a>
                     <a href="compress-image.html">🗜️ ضاغط الصور</a>
-                    <a href="compress-pdf.html" style="color: var(--primary); font-weight: 700;">📄 ضاغط PDF</a>
-                    <a href="compress-video.html">🎬 ضاغط الفيديو</a>
+                    <a href="compress-pdf.html">📄 ضاغط PDF</a>
+                    <a href="compress-video.html" style="color: var(--primary); font-weight: 700;">🎬 ضاغط الفيديو</a>
                 </nav>
             </div>
         </div>
     </header>
 
-    <!-- Hero -->
     <section class="hero">
         <div class="container">
             <div class="badge">✨ مجاني 100% - بدون تسجيل</div>
-            <h1>ضاغط PDF الذكي</h1>
-            <p>قلّل حجم ملفات PDF مباشرة في متصفحك، بدون رفع الملف لأي خادم. سريع، آمن، ومجاني 100%.</p>
+            <h1>ضاغط الفيديو الذكي</h1>
+            <p>قلّل حجم ملفات الفيديو مباشرة في متصفحك، بدون رفع الملف لأي خادم. المعالجة بالكامل على جهازك.</p>
         </div>
     </section>
 
-    <!-- Ad Placeholder Top -->
     <div class="container">
-        <div class="ad-placeholder">
-            <span>📢 مساحة إعلانية - Google AdSense</span>
-        </div>
+        <div class="ad-placeholder"><span>📢 مساحة إعلانية - Google AdSense</span></div>
     </div>
 
-    <!-- Tool -->
     <section class="tool-section">
         <div class="container">
             <div class="tool-card">
-                <!-- Upload Area -->
                 <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-                    <div class="upload-icon">📄</div>
-                    <div class="upload-text">اسحب ملف PDF هنا أو اضغط للاختيار</div>
-                    <div class="upload-subtext">حتى 25 ميجا</div>
-                    <input type="file" id="file-input" accept="application/pdf" onchange="handleFile(this.files[0])">
+                    <div class="upload-icon">🎬</div>
+                    <div class="upload-text">اسحب ملف الفيديو هنا أو اضغط للاختيار</div>
+                    <div class="upload-subtext">MP4, WebM, MOV — حتى 150 ميجا</div>
+                    <input type="file" id="file-input" accept="video/*" onchange="handleFile(this.files[0])">
                 </div>
 
-                <!-- Selected file -->
                 <div class="file-chip" id="file-chip" style="display: none;">
-                    <div class="file-icon">📄</div>
+                    <div class="file-icon">🎬</div>
                     <div class="file-meta">
                         <div class="file-name" id="file-name"></div>
                         <div class="file-size" id="file-size"></div>
@@ -181,72 +160,63 @@
                     <button onclick="resetTool()" title="إزالة الملف">✕</button>
                 </div>
 
-                <!-- Compression Options -->
+                <video class="preview-video" id="preview-video" controls style="display: none;"></video>
+
                 <div class="options" id="options" style="display: none;">
                     <h3>⚙️ مستوى الضغط</h3>
-                    <input type="range" class="quality-slider" id="quality" min="1" max="100" value="70">
+                    <input type="range" class="quality-slider" id="quality" min="1" max="100" value="60">
                     <div class="quality-labels">
                         <span>أصغر حجم (جودة أقل)</span>
-                        <span id="quality-value">70%</span>
+                        <span id="quality-value">60%</span>
                         <span>أفضل جودة (حجم أكبر)</span>
                     </div>
-                    <button class="btn btn-primary" onclick="compressPDF()" style="margin-top: 1rem; width: 100%;" id="compress-btn">
-                        <span id="compress-btn-text">🗜️ اضغط الملف</span>
+
+                    <h3 style="margin-top: 1.5rem;">📐 الدقة</h3>
+                    <div class="res-options" id="res-options">
+                        <button class="res-btn" data-res="0">الأصلية</button>
+                        <button class="res-btn active" data-res="720">720p</button>
+                        <button class="res-btn" data-res="480">480p</button>
+                        <button class="res-btn" data-res="360">360p</button>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="compressVideo()" style="margin-top: 1.5rem; width: 100%;" id="compress-btn">
+                        <span id="compress-btn-text">🗜️ اضغط الفيديو</span>
                     </button>
                     <div class="method-note">
-                        💡 <strong>طريقة العمل:</strong> يعيد الضاغط رسم كل صفحة كصورة محسّنة الجودة، لذلك يعطي أفضل النتائج مع ملفات PDF الممسوحة ضوئياً (سكانر) أو الغنية بالصور. النص في الملف الناتج يصبح جزءاً من الصورة وغير قابل للتحديد.
+                        💡 <strong>طريقة العمل:</strong> يعتمد الضاغط على مكتبة FFmpeg تعمل بالكامل داخل متصفحك (WebAssembly)، بدون أي رفع للملف. أول مرة قد يستغرق تحميل مكوّنات المكتبة (~30 ميجا) بعض الوقت حسب سرعة اتصالك. الضغط نفسه قد يأخذ من دقيقة لعدة دقائق حسب طول الفيديو وقوة جهازك — كل المعالجة تتم محلياً بدون إنترنت بعد التحميل الأول.
                     </div>
                 </div>
 
-                <!-- Compressing -->
                 <div class="compressing" id="compressing">
                     <div class="spinner-dark"></div>
-                    <p id="progress-text">جاري ضغط الملف...</p>
+                    <p id="progress-text">جاري تجهيز محرك الضغط...</p>
                     <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
+                    <div class="progress-log" id="progress-log"></div>
                 </div>
 
-                <!-- Preview / Results -->
                 <div class="preview-section" id="preview-section">
                     <h3 style="text-align: center; margin-bottom: 1rem;">📊 نتيجة الضغط</h3>
-
                     <div class="stats">
                         <div class="stats-grid">
-                            <div class="stat-item">
-                                <h3 id="original-size">0 KB</h3>
-                                <p>الحجم الأصلي</p>
-                            </div>
-                            <div class="stat-item">
-                                <h3 id="compressed-size">0 KB</h3>
-                                <p>الحجم بعد الضغط</p>
-                            </div>
-                            <div class="stat-item">
-                                <h3 id="savings">0%</h3>
-                                <p>نسبة التوفير</p>
-                            </div>
+                            <div class="stat-item"><h3 id="original-size">0 MB</h3><p>الحجم الأصلي</p></div>
+                            <div class="stat-item"><h3 id="compressed-size">0 MB</h3><p>الحجم بعد الضغط</p></div>
+                            <div class="stat-item"><h3 id="savings">0%</h3><p>نسبة التوفير</p></div>
                         </div>
                     </div>
-
+                    <video class="preview-video" id="result-video" controls style="max-height: 280px;"></video>
                     <div style="text-align: center;">
-                        <a id="download-link" class="btn btn-primary" download="compressed.pdf">
-                            📥 تحميل الملف المضغوط
-                        </a>
-                        <button class="btn btn-secondary" onclick="resetTool()">
-                            🔄 ضغط ملف آخر
-                        </button>
+                        <a id="download-link" class="btn btn-primary" download="compressed.mp4">📥 تحميل الفيديو المضغوط</a>
+                        <button class="btn btn-secondary" onclick="resetTool()">🔄 ضغط فيديو آخر</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Ad Placeholder Bottom -->
     <div class="container">
-        <div class="ad-placeholder">
-            <span>📢 مساحة إعلانية - Google AdSense</span>
-        </div>
+        <div class="ad-placeholder"><span>📢 مساحة إعلانية - Google AdSense</span></div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-links">
@@ -259,47 +229,37 @@
         </div>
     </footer>
 
-    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <!-- pdf.js (renders pages) -->
-    <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
-    <!-- pdf-lib (rebuilds the compressed PDF) -->
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    <script type="module">
+        import { FFmpeg } from 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
+        import { toBlobURL, fetchFile } from 'https://unpkg.com/@ffmpeg/util@0.12.1/dist/esm/index.js';
 
         let originalFile = null;
+        let ffmpeg = null;
+        let selectedRes = 720;
 
-        // Drag and drop
         const uploadArea = document.getElementById('upload-area');
-
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
         uploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
             uploadArea.classList.remove('dragover');
             const file = e.dataTransfer.files[0];
-            if (file && file.type === 'application/pdf') {
-                handleFile(file);
-            } else {
-                showToast('❌ الرجاء اختيار ملف PDF صالح');
-            }
+            if (file && file.type.startsWith('video/')) handleFile(file);
+            else showToast('❌ الرجاء اختيار ملف فيديو صالح');
         });
 
-        // Quality slider
-        const qualitySlider = document.getElementById('quality');
-        const qualityValue = document.getElementById('quality-value');
-        qualitySlider.addEventListener('input', function() {
-            qualityValue.textContent = this.value + '%';
+        document.getElementById('quality').addEventListener('input', function() {
+            document.getElementById('quality-value').textContent = this.value + '%';
+        });
+
+        document.querySelectorAll('.res-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.res-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedRes = parseInt(btn.dataset.res);
+            });
         });
 
         function formatSize(bytes) {
@@ -307,87 +267,76 @@
             return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
         }
 
-        function handleFile(file) {
-            if (!file || file.type !== 'application/pdf') {
-                showToast('❌ الرجاء اختيار ملف PDF صالح');
-                return;
-            }
-
-            if (file.size > 25 * 1024 * 1024) {
-                showToast('❌ حجم الملف كبير جداً. الحد الأقصى 25 ميجا');
-                return;
-            }
+        window.handleFile = function(file) {
+            if (!file || !file.type.startsWith('video/')) { showToast('❌ الرجاء اختيار ملف فيديو صالح'); return; }
+            if (file.size > 150 * 1024 * 1024) { showToast('❌ حجم الملف كبير جداً. الحد الأقصى 150 ميجا'); return; }
 
             originalFile = file;
-
             document.getElementById('file-name').textContent = file.name;
             document.getElementById('file-size').textContent = formatSize(file.size);
             document.getElementById('file-chip').style.display = 'flex';
+
+            const previewVideo = document.getElementById('preview-video');
+            previewVideo.src = URL.createObjectURL(file);
+            previewVideo.style.display = 'block';
+
             document.getElementById('options').style.display = 'block';
             document.getElementById('upload-area').style.display = 'none';
             document.getElementById('preview-section').classList.remove('show');
-            showToast('✅ تم تحميل الملف بنجاح!');
+            showToast('✅ تم تحميل الفيديو بنجاح!');
+        };
+
+        async function loadFFmpeg() {
+            if (ffmpeg) return ffmpeg;
+            ffmpeg = new FFmpeg();
+            document.getElementById('progress-text').textContent = 'جاري تحميل محرك الضغط (أول مرة فقط)...';
+            const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+            ffmpeg.on('progress', ({ progress }) => {
+                const pct = Math.min(100, Math.round(progress * 100));
+                document.getElementById('progress-fill').style.width = pct + '%';
+                document.getElementById('progress-text').textContent = `جاري ضغط الفيديو... ${pct}%`;
+            });
+            ffmpeg.on('log', ({ message }) => {
+                const log = document.getElementById('progress-log');
+                log.textContent = message.slice(0, 80);
+            });
+            await ffmpeg.load({
+                coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+                wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+            });
+            return ffmpeg;
         }
 
-        async function compressPDF() {
+        window.compressVideo = async function() {
             if (!originalFile) return;
 
-            const quality = document.getElementById('quality').value / 100;
-            // Map quality (0.01-1) to a render scale between 1.0x and 2.2x so
-            // higher quality also keeps sharper page images.
-            const scale = 1.0 + quality * 1.2;
-            // JPEG quality follows the slider directly, with a sensible floor.
-            const jpegQuality = Math.max(0.35, quality);
+            const quality = parseInt(document.getElementById('quality').value);
+            // Map slider (1-100, higher = better quality) to CRF (lower = better quality)
+            // Slider 100 -> CRF 18 (near lossless), Slider 1 -> CRF 34 (very compressed)
+            const crf = Math.round(34 - (quality / 100) * 16);
 
             document.getElementById('options').style.display = 'none';
             document.getElementById('compressing').classList.add('show');
             document.getElementById('compress-btn').disabled = true;
 
             try {
-                const arrayBuffer = await originalFile.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer.slice(0) }).promise;
-                const numPages = pdf.numPages;
+                const ff = await loadFFmpeg();
+                const inputName = 'input' + (originalFile.name.match(/\.\w+$/)?.[0] || '.mp4');
+                const outputName = 'output.mp4';
 
-                const { PDFDocument } = PDFLib;
-                const newPdf = await PDFDocument.create();
+                await ff.writeFile(inputName, await fetchFile(originalFile));
 
-                for (let i = 1; i <= numPages; i++) {
-                    document.getElementById('progress-text').textContent =
-                        `جاري معالجة الصفحة ${i} من ${numPages}...`;
-                    document.getElementById('progress-fill').style.width =
-                        Math.round((i / numPages) * 100) + '%';
-
-                    const page = await pdf.getPage(i);
-                    const viewport = page.getViewport({ scale });
-
-                    const canvas = document.createElement('canvas');
-                    canvas.width = Math.round(viewport.width);
-                    canvas.height = Math.round(viewport.height);
-                    const ctx = canvas.getContext('2d');
-
-                    await page.render({ canvasContext: ctx, viewport }).promise;
-
-                    const jpegDataUrl = canvas.toDataURL('image/jpeg', jpegQuality);
-                    const jpegBytes = await (await fetch(jpegDataUrl)).arrayBuffer();
-                    const embeddedImage = await newPdf.embedJpg(jpegBytes);
-
-                    // Keep the original page proportions (in PDF points, not pixels)
-                    const originalViewport = page.getViewport({ scale: 1 });
-                    const newPage = newPdf.addPage([originalViewport.width, originalViewport.height]);
-                    newPage.drawImage(embeddedImage, {
-                        x: 0,
-                        y: 0,
-                        width: originalViewport.width,
-                        height: originalViewport.height
-                    });
-
-                    // Free canvas memory before moving to the next page
-                    canvas.width = 0;
-                    canvas.height = 0;
+                const args = ['-i', inputName, '-c:v', 'libx264', '-crf', String(crf), '-preset', 'veryfast'];
+                if (selectedRes > 0) {
+                    args.push('-vf', `scale=-2:${selectedRes}`);
                 }
+                args.push('-c:a', 'aac', '-b:a', '128k', outputName);
 
-                const compressedBytes = await newPdf.save();
-                const compressedBlob = new Blob([compressedBytes], { type: 'application/pdf' });
+                document.getElementById('progress-text').textContent = 'جاري ضغط الفيديو...';
+                await ff.exec(args);
+
+                const data = await ff.readFile(outputName);
+                const compressedBlob = new Blob([data.buffer], { type: 'video/mp4' });
                 const url = URL.createObjectURL(compressedBlob);
 
                 const originalSize = originalFile.size;
@@ -398,46 +347,56 @@
                 document.getElementById('compressed-size').textContent = formatSize(compressedSize);
                 document.getElementById('savings').textContent = savings + '%';
 
+                const resultVideo = document.getElementById('result-video');
+                resultVideo.src = url;
+
                 const downloadLink = document.getElementById('download-link');
                 downloadLink.href = url;
-                downloadLink.download = originalFile.name.replace(/\.pdf$/i, '') + '-compressed.pdf';
+                downloadLink.download = originalFile.name.replace(/\.\w+$/, '') + '-compressed.mp4';
 
                 document.getElementById('compressing').classList.remove('show');
                 document.getElementById('compress-btn').disabled = false;
                 document.getElementById('preview-section').classList.add('show');
 
                 if (compressedSize >= originalSize) {
-                    showToast('ℹ️ الملف كان مضغوطاً بالفعل، جرّب مستوى ضغط أقل');
+                    showToast('ℹ️ الفيديو كان مضغوطاً بالفعل، جرّب مستوى ضغط أعلى أو دقة أقل');
                 } else {
-                    showToast('✅ تم ضغط الملف بنجاح! وفّرت ' + savings + '%');
+                    showToast('✅ تم ضغط الفيديو بنجاح! وفّرت ' + savings + '%');
                 }
+
+                // cleanup wasm FS
+                await ff.deleteFile(inputName);
+                await ff.deleteFile(outputName);
             } catch (error) {
                 console.error(error);
                 document.getElementById('compressing').classList.remove('show');
                 document.getElementById('options').style.display = 'block';
                 document.getElementById('compress-btn').disabled = false;
-                showToast('❌ حدث خطأ أثناء ضغط الملف: ' + error.message);
+                showToast('❌ حدث خطأ أثناء ضغط الفيديو: ' + error.message);
             }
-        }
+        };
 
-        function resetTool() {
+        window.resetTool = function() {
             originalFile = null;
             document.getElementById('upload-area').style.display = 'block';
             document.getElementById('file-chip').style.display = 'none';
+            document.getElementById('preview-video').style.display = 'none';
+            document.getElementById('preview-video').src = '';
             document.getElementById('options').style.display = 'none';
             document.getElementById('compressing').classList.remove('show');
             document.getElementById('preview-section').classList.remove('show');
             document.getElementById('progress-fill').style.width = '0%';
+            document.getElementById('progress-log').textContent = '';
             document.getElementById('file-input').value = '';
-            document.getElementById('quality').value = 70;
-            document.getElementById('quality-value').textContent = '70%';
-        }
+            document.getElementById('quality').value = 60;
+            document.getElementById('quality-value').textContent = '60%';
+        };
 
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            setTimeout(() => toast.classList.remove('show'), 3500);
         }
     </script>
 </body>
