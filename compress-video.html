@@ -109,6 +109,175 @@
         .progress-bar-fill { height: 100%; width: 0%; background: var(--primary); transition: width 0.2s; }
         .progress-log { font-size: 0.75rem; color: var(--text-light); margin-top: 0.75rem; font-family: monospace; }
     </style>
+    <style id="neon-theme-override">
+        :root {
+            --primary: #A855F7;
+            --primary-dark: #7C3AED;
+            --secondary: #22D3EE;
+            --danger: #F43F5E;
+            --bg: #120A24;
+            --card: rgba(21, 8, 45, 0.65);
+            --text: #EDE9FE;
+            --text-light: #A78BFA;
+            --border: rgba(168, 85, 247, 0.3);
+            --shadow-lg: 0 20px 45px -10px rgba(0,0,0,0.6);
+        }
+        body {
+            background:
+                radial-gradient(circle at 12% 15%, rgba(168,85,247,0.28), transparent 42%),
+                radial-gradient(circle at 88% 12%, rgba(34,211,238,0.22), transparent 40%),
+                radial-gradient(circle at 50% 100%, rgba(236,72,153,0.15), transparent 45%),
+                linear-gradient(180deg, #0A0118 0%, #150829 55%, #0A0118 100%) !important;
+            background-attachment: fixed !important;
+            color: var(--text) !important;
+        }
+        header {
+            background: rgba(10,1,24,0.75) !important;
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(168,85,247,0.25) !important;
+        }
+        .logo { color: #22D3EE !important; text-shadow: 0 0 14px rgba(34,211,238,0.55); }
+        .logo-icon {
+            background: linear-gradient(135deg, #A855F7, #22D3EE) !important;
+            box-shadow: 0 0 22px rgba(168,85,247,0.55);
+        }
+        nav a { color: #C4B5FD !important; }
+        nav a:hover { color: #22D3EE !important; text-shadow: 0 0 10px rgba(34,211,238,0.5); }
+
+        .hero h1 {
+            background: linear-gradient(135deg, #C084FC, #22D3EE) !important;
+            -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
+            filter: drop-shadow(0 0 24px rgba(168,85,247,0.35));
+        }
+        .hero p { color: #C4B5FD !important; }
+        .badge {
+            background: rgba(34,211,238,0.12) !important;
+            border: 1px solid rgba(34,211,238,0.45) !important;
+            color: #67E8F9 !important;
+            box-shadow: 0 0 24px rgba(34,211,238,0.18);
+        }
+
+        .tool-card, .content {
+            background: var(--card) !important;
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(168,85,247,0.25) !important;
+            box-shadow: 0 0 55px rgba(168,85,247,0.16), 0 25px 50px -12px rgba(0,0,0,0.55) !important;
+        }
+
+        .upload-area {
+            background: rgba(10,1,24,0.45) !important;
+            border: 3px dashed rgba(168,85,247,0.4) !important;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            border-color: #22D3EE !important;
+            background: rgba(34,211,238,0.08) !important;
+            box-shadow: 0 0 30px rgba(34,211,238,0.2) inset;
+        }
+        .upload-text { color: var(--text) !important; }
+        .upload-subtext { color: #A78BFA !important; }
+
+        .file-chip, .file-info {
+            background: rgba(10,1,24,0.5) !important;
+            border: 1px solid rgba(168,85,247,0.22) !important;
+        }
+        .file-name { color: var(--text) !important; }
+        .file-size { color: #A78BFA !important; }
+
+        input[type="range"] { accent-color: #A855F7; }
+        .quality-labels, .range-value, .char-count, .hint { color: #A78BFA !important; }
+        .range-value { color: #22D3EE !important; }
+
+        .res-btn {
+            background: rgba(10,1,24,0.4) !important;
+            border: 2px solid rgba(168,85,247,0.28) !important;
+            color: #C4B5FD !important;
+        }
+        .res-btn.active {
+            border-color: #22D3EE !important;
+            background: rgba(34,211,238,0.14) !important;
+            color: #22D3EE !important;
+            box-shadow: 0 0 16px rgba(34,211,238,0.3);
+        }
+
+        .method-note {
+            background: rgba(10,1,24,0.45) !important;
+            border: 1px solid rgba(168,85,247,0.18) !important;
+            color: #A78BFA !important;
+        }
+        .method-note strong { color: var(--text) !important; }
+
+        .stats {
+            background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(34,211,238,0.28)) !important;
+            border: 1px solid rgba(168,85,247,0.3) !important;
+        }
+        .stat-item h3 { color: #fff !important; text-shadow: 0 0 12px rgba(34,211,238,0.5); }
+        .stat-item p { color: #E9D5FF !important; }
+
+        .btn-primary, .btn-generate {
+            background: linear-gradient(135deg, #A855F7, #22D3EE) !important;
+            color: #0A0118 !important;
+            font-weight: 800 !important;
+            box-shadow: 0 10px 30px -5px rgba(168,85,247,0.5), 0 0 25px rgba(34,211,238,0.3) !important;
+        }
+        .btn-secondary {
+            background: rgba(10,1,24,0.4) !important;
+            border: 2px solid rgba(168,85,247,0.3) !important;
+            color: var(--text) !important;
+        }
+        .btn-secondary:hover { border-color: #22D3EE !important; color: #22D3EE !important; }
+
+        .type-btn { background: rgba(10,1,24,0.45) !important; border: 2px solid rgba(168,85,247,0.28) !important; color: #C4B5FD !important; }
+        .type-btn:hover { border-color: #22D3EE !important; color: #22D3EE !important; }
+        .type-btn.active {
+            background: linear-gradient(135deg, #A855F7, #22D3EE) !important;
+            color: #0A0118 !important; border-color: transparent !important;
+            box-shadow: 0 0 18px rgba(168,85,247,0.4);
+        }
+
+        .input-group input, .input-group textarea, .input-group select,
+        .option-group select {
+            background: rgba(10,1,24,0.5) !important;
+            border: 2px solid rgba(168,85,247,0.28) !important;
+            color: var(--text) !important;
+        }
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            border-color: #22D3EE !important;
+            box-shadow: 0 0 0 4px rgba(34,211,238,0.15) !important;
+        }
+        .option-group { background: rgba(10,1,24,0.4) !important; border: 1px solid rgba(168,85,247,0.18); }
+        .qr-container { background: rgba(10,1,24,0.5) !important; box-shadow: 0 0 40px rgba(168,85,247,0.2) inset; }
+        .data-preview { background: rgba(10,1,24,0.5) !important; color: #A78BFA !important; }
+        .data-preview strong { color: var(--text) !important; }
+
+        .ad-placeholder {
+            background: rgba(10,1,24,0.35) !important;
+            border: 2px dashed rgba(168,85,247,0.22) !important;
+            color: #A78BFA !important;
+        }
+
+        footer { background: #05010D !important; border-top: 1px solid rgba(168,85,247,0.2); }
+        .footer-links a { color: #A78BFA !important; }
+        .footer-links a:hover { color: #22D3EE !important; }
+        footer p { color: #C4B5FD !important; }
+
+        .toast {
+            background: rgba(21,8,45,0.96) !important;
+            border: 1px solid rgba(34,211,238,0.4);
+            box-shadow: 0 0 24px rgba(34,211,238,0.25);
+        }
+
+        .spinner, .spinner-dark { border-color: rgba(168,85,247,0.2) !important; border-top-color: #22D3EE !important; }
+        .progress-bar { background: rgba(168,85,247,0.15) !important; }
+        .progress-bar-fill { background: linear-gradient(90deg, #A855F7, #22D3EE) !important; }
+        .progress-log { color: #A78BFA !important; }
+
+        .content h2 { color: #22D3EE !important; text-shadow: 0 0 10px rgba(34,211,238,0.3); }
+        .content p, .content ul { color: #C4B5FD !important; }
+        .content strong { color: #fff !important; }
+        .date { background: rgba(10,1,24,0.45) !important; color: #A78BFA !important; }
+
+        .image-box, .comparison { background: rgba(10,1,24,0.4) !important; border: 1px solid rgba(168,85,247,0.2); }
+    </style>
 </head>
 <body>
     <header>
@@ -287,7 +456,8 @@
         };
 
         async function loadFFmpeg() {
-            if (ffmpeg) return ffmpeg;
+            if (ffmpeg && ffmpeg.loaded) return ffmpeg;
+
             ffmpeg = new FFmpeg();
             document.getElementById('progress-text').textContent = 'جاري تحميل محرك الضغط (أول مرة فقط)...';
             const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
@@ -300,10 +470,23 @@
                 const log = document.getElementById('progress-log');
                 log.textContent = message.slice(0, 80);
             });
-            await ffmpeg.load({
-                coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-                wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
-            });
+
+            try {
+                const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
+                const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
+                await ffmpeg.load({ coreURL, wasmURL });
+            } catch (err) {
+                // Important: reset the module-level instance so a retry starts fresh
+                // instead of reusing a half-loaded ffmpeg object (that was the bug).
+                ffmpeg = null;
+                throw new Error('فشل تحميل محرك الضغط. تأكد من اتصال الإنترنت وحاول مرة أخرى (السبب الأصلي: ' + err.message + ')');
+            }
+
+            if (!ffmpeg.loaded) {
+                ffmpeg = null;
+                throw new Error('فشل تحميل محرك الضغط لسبب غير معروف، برجاء المحاولة مرة أخرى');
+            }
+
             return ffmpeg;
         }
 
