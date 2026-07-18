@@ -352,7 +352,7 @@
                         <span id="compress-btn-text">🗜️ اضغط الفيديو</span>
                     </button>
                     <div class="method-note">
-                        💡 <strong>طريقة العمل:</strong> يعتمد الضاغط على مكتبة FFmpeg تعمل بالكامل داخل متصفحك (WebAssembly)، بدون أي رفع للملف. أول مرة قد يستغرق تحميل مكوّنات المكتبة (~30 ميجا) بعض الوقت حسب سرعة اتصالك. الضغط نفسه قد يأخذ من دقيقة لعدة دقائق حسب طول الفيديو وقوة جهازك — كل المعالجة تتم محلياً بدون إنترنت بعد التحميل الأول.
+                        💡 <strong>طريقة العمل:</strong> يعتمد الضاغط على مكتبة FFmpeg تعمل بالكامل داخل متصفحك (WebAssembly)، بدون أي رفع للملف. أول مرة فقط هيتم تحميل محرك الضغط (~30 ميجا) وهتشوف نسبة التحميل الفعلية على الشاشة — <strong>يُفضّل استخدام واي فاي</strong> لأن التحميل على بيانات الموبايل قد يبطّئ العملية. الضغط نفسه بعد كده قد يأخذ من دقيقة لعدة دقائق حسب طول الفيديو وقوة جهازك.
                     </div>
                 </div>
 
@@ -455,12 +455,54 @@
             showToast('✅ تم تحميل الفيديو بنجاح!');
         };
 
+        async function fetchWithProgress(url, mimeType, onProgress) {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`تعذّر تحميل ملف من الخادم (${response.status})`);
+            }
+            const contentLength = +response.headers.get('Content-Length') || 0;
+            const reader = response.body.getReader();
+            const chunks = [];
+            let received = 0;
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                chunks.push(value);
+                received += value.length;
+                onProgress(received, contentLength);
+            }
+            const blob = new Blob(chunks, { type: mimeType });
+            return URL.createObjectURL(blob);
+        }
+
+        function withTimeout(promise, ms, timeoutMessage) {
+            let timer;
+            const timeout = new Promise((_, reject) => {
+                timer = setTimeout(() => reject(new Error(timeoutMessage)), ms);
+            });
+            return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+        }
+
         async function loadFFmpeg() {
             if (ffmpeg && ffmpeg.loaded) return ffmpeg;
 
             ffmpeg = new FFmpeg();
-            document.getElementById('progress-text').textContent = 'جاري تحميل محرك الضغط (أول مرة فقط)...';
             const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+
+            // Rough total size of core.js + core.wasm + worker.js (~25-30MB), used
+            // only to show a friendly progress percentage while downloading.
+            const ESTIMATED_TOTAL_BYTES = 31 * 1024 * 1024;
+            let downloadedSoFar = 0;
+
+            function updateDownloadProgress(received, contentLength, label) {
+                const effectiveTotal = contentLength || ESTIMATED_TOTAL_BYTES;
+                const totalReceived = downloadedSoFar + received;
+                const pct = Math.min(99, Math.round((totalReceived / ESTIMATED_TOTAL_BYTES) * 100));
+                document.getElementById('progress-fill').style.width = pct + '%';
+                document.getElementById('progress-text').textContent =
+                    `جاري تحميل محرك الضغط (أول مرة فقط)... ${(totalReceived / (1024 * 1024)).toFixed(1)} ميجا`;
+            }
+
             ffmpeg.on('progress', ({ progress }) => {
                 const pct = Math.min(100, Math.round(progress * 100));
                 document.getElementById('progress-fill').style.width = pct + '%';
@@ -472,18 +514,39 @@
             });
 
             try {
-                const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
-                const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
-                const classWorkerURL = await toBlobURL(
-                    'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js',
-                    'text/javascript'
+                document.getElementById('progress-text').textContent = 'جاري تحميل محرك الضغط (أول مرة فقط)... 0 ميجا';
+
+                const coreURL = await withTimeout(
+                    fetchWithProgress(`${baseURL}/ffmpeg-core.js`, 'text/javascript', (r, t) => updateDownloadProgress(r, t)),
+                    60000, 'تحميل محرك الضغط أخذ وقت طويل جداً (مرحلة 1). تأكد من اتصال الإنترنت وحاول تاني'
                 );
-                await ffmpeg.load({ coreURL, wasmURL, classWorkerURL });
+                downloadedSoFar += 0.1 * 1024 * 1024; // core.js is small, nudge the bar
+
+                const wasmURL = await withTimeout(
+                    fetchWithProgress(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm', (r, t) => updateDownloadProgress(r, t)),
+                    120000, 'تحميل محرك الضغط أخذ وقت طويل جداً (مرحلة 2 - الملف الرئيسي). تأكد من اتصال الإنترنت (يفضّل واي فاي) وحاول تاني'
+                );
+                downloadedSoFar += 29 * 1024 * 1024;
+
+                const classWorkerURL = await withTimeout(
+                    fetchWithProgress(
+                        'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js',
+                        'text/javascript',
+                        (r, t) => updateDownloadProgress(r, t)
+                    ),
+                    30000, 'تحميل محرك الضغط أخذ وقت طويل جداً (مرحلة 3). تأكد من اتصال الإنترنت وحاول تاني'
+                );
+
+                document.getElementById('progress-fill').style.width = '100%';
+                document.getElementById('progress-text').textContent = 'جاري تجهيز محرك الضغط...';
+
+                await withTimeout(
+                    ffmpeg.load({ coreURL, wasmURL, classWorkerURL }),
+                    30000, 'تجهيز محرك الضغط أخذ وقت طويل جداً. حاول تاني'
+                );
             } catch (err) {
-                // Important: reset the module-level instance so a retry starts fresh
-                // instead of reusing a half-loaded ffmpeg object (that was the bug).
                 ffmpeg = null;
-                throw new Error('فشل تحميل محرك الضغط. تأكد من اتصال الإنترنت وحاول مرة أخرى (السبب الأصلي: ' + err.message + ')');
+                throw new Error(err.message || 'فشل تحميل محرك الضغط، برجاء المحاولة مرة أخرى');
             }
 
             if (!ffmpeg.loaded) {
