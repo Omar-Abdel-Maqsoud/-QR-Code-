@@ -529,11 +529,27 @@
                 downloadedSoFar += 29 * 1024 * 1024;
 
                 const classWorkerURL = await withTimeout(
-                    fetchWithProgress(
-                        'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js',
-                        'text/javascript',
-                        (r, t) => updateDownloadProgress(r, t)
-                    ),
+                    (async () => {
+                        // worker.js internally does `import ... from "./const.js"` and
+                        // `import ... from "./errors.js"`. Those relative imports break
+                        // once the script is wrapped in a blob: URL (no real path context),
+                        // which made the worker fail silently and hang forever. Fix: fetch
+                        // all three files and inline them into a single self-contained
+                        // script with no relative imports.
+                        const ffmpegBase = 'https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/esm';
+                        const [constSrc, errorsSrc, workerSrc] = await Promise.all([
+                            fetch(`${ffmpegBase}/const.js`).then(r => r.text()),
+                            fetch(`${ffmpegBase}/errors.js`).then(r => r.text()),
+                            fetch(`${ffmpegBase}/worker.js`).then(r => r.text()),
+                        ]);
+                        const combined = [
+                            constSrc.replace(/export\s+/g, ''),
+                            errorsSrc.replace(/export\s+/g, ''),
+                            workerSrc.replace(/^import\s+.*from\s+["']\.\/(const|errors)\.js["'];?\s*$/gm, ''),
+                        ].join('\n');
+                        const blob = new Blob([combined], { type: 'text/javascript' });
+                        return URL.createObjectURL(blob);
+                    })(),
                     30000, 'تحميل محرك الضغط أخذ وقت طويل جداً (مرحلة 3). تأكد من اتصال الإنترنت وحاول تاني'
                 );
 
