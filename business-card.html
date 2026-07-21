@@ -400,7 +400,6 @@
 
     <div class="toast" id="toast"></div>
 
-    <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script>
         // ============ TEMPLATE DEFINITIONS ============
         // Each template provides renderFront(data) / renderBack(data) returning innerHTML.
@@ -681,24 +680,268 @@
             renderPreview();
         }
 
+        // ============ PURE-SVG EXPORT ENGINE ============
+        // Browsers taint <canvas> when you draw an SVG that contains <foreignObject>
+        // (embedded raw HTML) — toDataURL() then throws "Tainted canvases may not be
+        // exported", regardless of same-origin content. The fix is to build the card
+        // out of *native* SVG primitives (<text>, <rect>, <circle>, <image>, gradients)
+        // instead of embedding HTML. Native SVG <text> is shaped by the browser's own
+        // text engine, so Arabic renders correctly, and drawing such an SVG to canvas
+        // does not taint it.
+        function esc(s) { return (s == null ? '' : String(s)).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+        function svgText(x, y, text, opts) {
+            opts = opts || {};
+            const size = opts.size || 24, weight = opts.weight || 400, fill = opts.fill || '#fff';
+            const anchor = opts.anchor || 'start', family = opts.family || 'Tajawal';
+            const ls = opts.letterSpacing ? ` letter-spacing="${opts.letterSpacing}"` : '';
+            return `<text x="${x}" y="${y}" font-family="${family}, sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}" direction="rtl"${ls}>${esc(text)}</text>`;
+        }
+
+        const SVG_ICONS = { phone: '📞', whatsapp: '💬', email: '✉️', web: '🌐', address: '📍' };
+
+        // Right-aligned contact rows (icon circle near the right edge, text growing left).
+        function svgContactRows(data, opts) {
+            opts = opts || {};
+            const xRight = opts.xRight != null ? opts.xRight : 986;
+            let y = opts.startY || 300;
+            const gap = opts.gap || 46;
+            const size = opts.size || 19;
+            const fill = opts.fill || '#E0E7FF';
+            const iconBg = opts.iconBg || 'rgba(255,255,255,0.15)';
+            const items = [];
+            if (data.phone) items.push([SVG_ICONS.phone, data.phone]);
+            if (data.whatsapp) items.push([SVG_ICONS.whatsapp, data.whatsapp]);
+            if (data.email) items.push([SVG_ICONS.email, data.email]);
+            if (data.website) items.push([SVG_ICONS.web, data.website]);
+            if (data.address) items.push([SVG_ICONS.address, data.address]);
+            let svg = '';
+            items.forEach(([icon, text]) => {
+                const cx = xRight - 17, cy = y - size * 0.35;
+                svg += `<circle cx="${cx}" cy="${cy}" r="17" fill="${iconBg}"/>`;
+                svg += `<text x="${cx}" y="${cy + 6}" font-size="16" text-anchor="middle" direction="ltr">${icon}</text>`;
+                svg += svgText(xRight - 44, y, text, { size, fill, anchor: 'start' });
+                y += gap;
+            });
+            return svg;
+        }
+
+        function svgLogo(data, x, y, size) {
+            if (!data.logo) return '';
+            const rid = 'clip' + Math.random().toString(36).slice(2, 8);
+            return `<defs><clipPath id="${rid}"><rect x="${x}" y="${y}" width="${size}" height="${size}" rx="14"/></clipPath></defs>
+                <rect x="${x}" y="${y}" width="${size}" height="${size}" rx="14" fill="rgba(255,255,255,0.9)"/>
+                <image href="${data.logo}" x="${x}" y="${y}" width="${size}" height="${size}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${rid})"/>`;
+        }
+
+        const SVG_W = 1050, SVG_H = 600, PAD = 64, RIGHT = SVG_W - PAD;
+
+        function svgWrap(inner) {
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="${SVG_W}" height="${SVG_H}" viewBox="0 0 ${SVG_W} ${SVG_H}">${inner}</svg>`;
+        }
+
+        const SVG_TEMPLATES = {
+            'tpl-1': {
+                front: (d) => svgWrap(`
+                    <defs>
+                        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#4F46E5"/><stop offset="60%" stop-color="#4338CA"/><stop offset="100%" stop-color="#3730A3"/>
+                        </linearGradient>
+                        <radialGradient id="blob1"><stop offset="0%" stop-color="#10B981" stop-opacity="0.5"/><stop offset="100%" stop-color="#10B981" stop-opacity="0"/></radialGradient>
+                    </defs>
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="url(#g1)"/>
+                    <circle cx="60" cy="30" r="200" fill="url(#blob1)"/>
+                    ${svgLogo(d, 44, 44, 64)}
+                    ${svgText(RIGHT, 150, d.name || 'اسمك هنا', { size: 50, weight: 800, fill: '#fff' })}
+                    ${svgText(RIGHT, 188, (d.title || 'المسمى الوظيفي') + (d.company ? ' · ' + d.company : ''), { size: 23, weight: 500, fill: '#C7D2FE' })}
+                    <rect x="${RIGHT - 70}" y="220" width="70" height="4" rx="2" fill="#10B981"/>
+                    ${svgContactRows(d, { startY: 280, fill: '#E0E7FF', iconBg: 'rgba(255,255,255,0.15)' })}
+                `),
+                back: (d) => svgWrap(`
+                    <defs><linearGradient id="g1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4F46E5"/><stop offset="60%" stop-color="#4338CA"/><stop offset="100%" stop-color="#3730A3"/></linearGradient></defs>
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="url(#g1b)"/>
+                    ${svgText(SVG_W/2, 290, d.company || d.name || 'أدواتي', { size: 58, weight: 800, fill: '#fff', anchor: 'middle' })}
+                    <rect x="${SVG_W/2 - 45}" y="316" width="90" height="4" rx="2" fill="#10B981"/>
+                    ${svgText(SVG_W/2, 360, d.website || d.email || '', { size: 21, fill: '#C7D2FE', anchor: 'middle', family: 'Tajawal' })}
+                `)
+            },
+            'tpl-2': {
+                front: (d) => svgWrap(`
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#0B0B0D"/>
+                    <rect x="22" y="22" width="${SVG_W-44}" height="${SVG_H-44}" fill="none" stroke="#B8935A" stroke-width="1.5"/>
+                    ${svgText(SVG_W/2, 280, d.name || 'اسمك هنا', { size: 54, weight: 700, fill: '#F3E5C0', anchor: 'middle', family: 'Amiri' })}
+                    ${svgText(SVG_W/2, 320, (d.title || 'JOB TITLE').toUpperCase(), { size: 19, fill: '#B8935A', anchor: 'middle', letterSpacing: 5 })}
+                    <rect x="${SVG_W/2 - 60}" y="345" width="120" height="1" fill="#B8935A"/>
+                    ${svgContactRowsCentered(d, { startY: 400, fill: '#D8C398' })}
+                `),
+                back: (d) => svgWrap(`
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#0B0B0D"/>
+                    <rect x="22" y="22" width="${SVG_W-44}" height="${SVG_H-44}" fill="none" stroke="#B8935A" stroke-width="1.5"/>
+                    ${svgText(SVG_W/2, 285, d.company || d.name || 'أدواتي', { size: 44, weight: 700, fill: '#F3E5C0', anchor: 'middle', family: 'Amiri' })}
+                    <rect x="${SVG_W/2 - 60}" y="315" width="120" height="1" fill="#B8935A"/>
+                    ${svgText(SVG_W/2, 360, d.website || d.email || '', { size: 18, fill: '#D8C398', anchor: 'middle', letterSpacing: 2 })}
+                `)
+            },
+            'tpl-3': {
+                front: (d) => svgWrap(`
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#fff"/>
+                    <rect x="0" y="0" width="26" height="${SVG_H}" fill="#111"/>
+                    <circle cx="${SVG_W - 130}" cy="150" r="50" fill="none" stroke="#111" stroke-width="3"/>
+                    ${svgText(SVG_W - 130, 165, (d.name || '؟')[0] || '؟', { size: 38, weight: 800, fill: '#111', anchor: 'middle' })}
+                    ${svgText(RIGHT, 250, d.name || 'اسمك هنا', { size: 44, weight: 800, fill: '#111' })}
+                    ${svgText(RIGHT, 285, d.title || 'المسمى الوظيفي', { size: 19, fill: '#666' })}
+                    ${svgContactRows(d, { startY: 340, fill: '#333', iconBg: '#111' })}
+                `),
+                back: (d) => svgWrap(`
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#fff"/>
+                    <rect x="0" y="0" width="26" height="${SVG_H}" fill="#111"/>
+                    ${svgText(SVG_W/2 + 13, 285, d.company || d.name || 'أدواتي', { size: 48, weight: 800, fill: '#111', anchor: 'middle' })}
+                    ${svgText(SVG_W/2 + 13, 325, d.website || d.email || '', { size: 19, fill: '#666', anchor: 'middle' })}
+                `)
+            },
+            'tpl-4': {
+                front: (d) => svgWrap(`
+                    <defs>
+                        <radialGradient id="g4" cx="20%" cy="15%" r="80%"><stop offset="0%" stop-color="#1a1245"/><stop offset="70%" stop-color="#06070d"/></radialGradient>
+                        <linearGradient id="acc4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22D3EE"/><stop offset="100%" stop-color="#8B5CF6"/></linearGradient>
+                    </defs>
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="url(#g4)"/>
+                    ${svgLogo(d, 44, 44, 64)}
+                    ${svgText(RIGHT, 270, d.name || 'اسمك هنا', { size: 48, weight: 800, fill: '#fff' })}
+                    ${svgText(RIGHT, 305, d.title || 'المسمى الوظيفي', { size: 21, fill: '#67E8F9' })}
+                    <rect x="${RIGHT - 90}" y="330" width="90" height="3" fill="url(#acc4)"/>
+                    ${svgContactRows(d, { startY: 385, fill: '#C4B5FD', iconBg: 'rgba(139,92,246,0.2)' })}
+                `),
+                back: (d) => svgWrap(`
+                    <defs><radialGradient id="g4b" cx="20%" cy="15%" r="80%"><stop offset="0%" stop-color="#1a1245"/><stop offset="70%" stop-color="#06070d"/></radialGradient></defs>
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="url(#g4b)"/>
+                    ${svgText(SVG_W/2, 290, d.company || d.name || 'أدواتي', { size: 54, weight: 800, fill: '#fff', anchor: 'middle' })}
+                    ${svgText(SVG_W/2, 340, d.website || d.email || '', { size: 20, fill: '#67E8F9', anchor: 'middle' })}
+                `)
+            },
+            'tpl-5': {
+                front: (d) => svgWrap(`
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#0F1B3D"/>
+                    <polygon points="0,0 260,0 0,${SVG_H}" fill="rgba(255,255,255,0.05)"/>
+                    <rect x="${SVG_W-14}" y="0" width="14" height="${SVG_H}" fill="#10B981"/>
+                    ${svgText(RIGHT-14, 260, d.name || 'اسمك هنا', { size: 46, weight: 800, fill: '#fff' })}
+                    ${svgText(RIGHT-14, 296, (d.title || 'المسمى الوظيفي') + (d.company ? ' — ' + d.company : ''), { size: 20, fill: '#93C5FD' })}
+                    ${svgContactRows(d, { xRight: RIGHT-14, startY: 350, fill: '#DBEAFE', iconBg: 'rgba(16,185,129,0.2)' })}
+                `),
+                back: (d) => svgWrap(`
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#0F1B3D"/>
+                    <rect x="${SVG_W-14}" y="0" width="14" height="${SVG_H}" fill="#10B981"/>
+                    ${svgText(SVG_W/2, 290, d.company || d.name || 'أدواتي', { size: 52, weight: 800, fill: '#fff', anchor: 'middle' })}
+                    ${svgText(SVG_W/2, 335, d.website || d.email || '', { size: 19, fill: '#DBEAFE', anchor: 'middle' })}
+                `)
+            },
+            'tpl-6': {
+                front: (d) => svgWrap(`
+                    <defs>
+                        <radialGradient id="sh1"><stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#FCA5A5"/></radialGradient>
+                        <radialGradient id="sh2"><stop offset="0%" stop-color="#A7F3D0"/><stop offset="100%" stop-color="#60A5FA"/></radialGradient>
+                    </defs>
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#fff"/>
+                    <circle cx="${SVG_W-60}" cy="30" r="110" fill="url(#sh1)" opacity="0.85"/>
+                    <circle cx="${SVG_W-120}" cy="${SVG_H+10}" r="80" fill="url(#sh2)" opacity="0.7"/>
+                    ${svgLogo(d, 44, 44, 64)}
+                    ${svgText(RIGHT, 250, d.name || 'اسمك هنا', { size: 46, weight: 800, fill: '#4338CA' })}
+                    ${svgText(RIGHT, 286, d.title || 'المسمى الوظيفي', { size: 20, weight: 700, fill: '#F97316' })}
+                    ${svgContactRows(d, { startY: 340, fill: '#334155', iconBg: '#EEF2FF' })}
+                `),
+                back: (d) => svgWrap(`
+                    <defs><radialGradient id="sh1b"><stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#FCA5A5"/></radialGradient></defs>
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#fff"/>
+                    <circle cx="${SVG_W-60}" cy="30" r="110" fill="url(#sh1b)" opacity="0.85"/>
+                    ${svgText(SVG_W/2, 290, d.company || d.name || 'أدواتي', { size: 50, weight: 800, fill: '#4338CA', anchor: 'middle' })}
+                    ${svgText(SVG_W/2, 330, d.website || d.email || '', { size: 19, fill: '#334155', anchor: 'middle' })}
+                `)
+            },
+            'tpl-7': {
+                front: (d) => svgWrap(`
+                    <defs>
+                        <linearGradient id="g7" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FDF2F8"/><stop offset="100%" stop-color="#EEF2FF"/></linearGradient>
+                        <linearGradient id="av7" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F472B6"/><stop offset="100%" stop-color="#A78BFA"/></linearGradient>
+                    </defs>
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="url(#g7)"/>
+                    <circle cx="${RIGHT-45}" cy="150" r="45" fill="url(#av7)"/>
+                    ${svgText(RIGHT-45, 163, (d.name || '؟')[0] || '؟', { size: 32, weight: 800, fill: '#fff', anchor: 'middle' })}
+                    ${svgText(RIGHT, 245, d.name || 'اسمك هنا', { size: 42, weight: 800, fill: '#4C1D95' })}
+                    ${svgText(RIGHT, 278, d.title || 'المسمى الوظيفي', { size: 19, fill: '#7C3AED' })}
+                    ${svgContactRows(d, { startY: 330, gap: 40, fill: '#6D28D9', iconBg: '#fff' })}
+                `),
+                back: (d) => svgWrap(`
+                    <defs><linearGradient id="g7b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FDF2F8"/><stop offset="100%" stop-color="#EEF2FF"/></linearGradient></defs>
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="url(#g7b)"/>
+                    ${svgText(SVG_W/2, 290, d.company || d.name || 'أدواتي', { size: 46, weight: 800, fill: '#4C1D95', anchor: 'middle' })}
+                    ${svgText(SVG_W/2, 330, d.website || d.email || '', { size: 19, fill: '#6D28D9', anchor: 'middle' })}
+                `)
+            },
+            'tpl-8': {
+                front: (d) => svgWrap(`
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#1A1A1E"/>
+                    ${svgText(RIGHT, 275, d.name || 'اسمك هنا', { size: 48, weight: 700, fill: '#F1F1F1' })}
+                    ${svgText(RIGHT, 312, (d.title || 'المسمى الوظيفي') + (d.company ? ' · ' + d.company : ''), { size: 20, weight: 600, fill: '#10B981' })}
+                    <rect x="${RIGHT-60}" y="335" width="60" height="2" fill="#10B981"/>
+                    ${svgContactRows(d, { startY: 390, fill: '#BBBBBB', iconBg: 'rgba(16,185,129,0.12)' })}
+                `),
+                back: (d) => svgWrap(`
+                    <rect width="${SVG_W}" height="${SVG_H}" fill="#1A1A1E"/>
+                    ${svgText(SVG_W/2, 285, d.company || d.name || 'أدواتي', { size: 50, weight: 700, fill: '#F1F1F1', anchor: 'middle' })}
+                    <rect x="${SVG_W/2-30}" y="308" width="60" height="2" fill="#10B981"/>
+                    ${svgText(SVG_W/2, 350, d.website || d.email || '', { size: 20, fill: '#BBBBBB', anchor: 'middle' })}
+                `)
+            }
+        };
+
+        function svgContactRowsCentered(data, opts) {
+            opts = opts || {};
+            let y = opts.startY || 400;
+            const gap = opts.gap || 40;
+            const size = opts.size || 18;
+            const fill = opts.fill || '#D8C398';
+            const items = [];
+            if (data.phone) items.push(data.phone);
+            if (data.whatsapp) items.push(data.whatsapp);
+            if (data.email) items.push(data.email);
+            if (data.website) items.push(data.website);
+            if (data.address) items.push(data.address);
+            let svg = '';
+            items.forEach((text) => {
+                svg += svgText(SVG_W / 2, y, text, { size, fill, anchor: 'middle', family: 'Tajawal' });
+                y += gap;
+            });
+            return svg;
+        }
+
         async function downloadCard(side) {
             const data = getFormData();
             if (!data.name) {
                 showToast('❌ من فضلك اكتب الاسم على الأقل');
                 return;
             }
-            const html = side === 'front' ? selectedTemplate.renderFront(data) : selectedTemplate.renderBack(data);
-            const mount = document.getElementById('export-mount');
-            mount.innerHTML = html;
-            mount.style.width = '1050px';
-            mount.style.height = '600px';
-
             showToast('⏳ جاري تجهيز الصورة للطباعة...');
             try {
-                // Wait a tick so fonts/images inside the mounted node are laid out
-                await new Promise(r => setTimeout(r, 50));
-                const target = mount.firstElementChild;
-                const canvas = await html2canvas(target, { width: 1050, height: 600, scale: 1, backgroundColor: null, useCORS: true });
+                const svgGen = SVG_TEMPLATES[selectedTemplate.id];
+                const svgMarkup = side === 'front' ? svgGen.front(data) : svgGen.back(data);
+                const svgBlob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
+                const svgUrl = URL.createObjectURL(svgBlob);
+
+                const img = new Image();
+                img.src = svgUrl;
+                if (img.decode) {
+                    await img.decode();
+                } else {
+                    await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; });
+                }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = SVG_W;
+                canvas.height = SVG_H;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, SVG_W, SVG_H);
+                URL.revokeObjectURL(svgUrl);
+
                 const link = document.createElement('a');
                 link.download = `${(data.name || 'card').replace(/\s+/g, '-')}-${side === 'front' ? 'امامي' : 'خلفي'}.png`;
                 link.href = canvas.toDataURL('image/png');
